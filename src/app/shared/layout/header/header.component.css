@@ -1,0 +1,76 @@
+.corMatBar {
+  background-color: #E0E0E0 !important;
+  background: linear-gradient(to right, #434444, rgba(0, 0, 0, 0.8));
+  padding: 10px 0;
+}
+
+.alturaLinha {
+  margin-top: 10px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.treLogo {
+  width: 54px;
+  height: 54px;
+}
+
+.fonteNome {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: bold;
+  font-style: italic;
+  line-height: 0.85;
+}
+
+.logo {
+  color: #f5f7fa;
+  font-size: 28px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.subtitulo-logo {
+  font-size: 18px;
+  color: #1ebff3;
+}
+
+.areaLogin {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 5px;
+  padding: 5px;
+  color: whitesmoke;
+  font-size: 14px;
+}
+
+.logadoDescricao {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.botaoLogin {
+  background-color: white;
+  font-size: 16px;
+}
+
+.corIcone {
+  color: #467caf;
+}
+
+.linkCursor {
+  cursor: pointer;
+}
+
+
+
+
+

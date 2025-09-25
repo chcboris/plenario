@@ -1,0 +1,124 @@
+<div class="dashboard-container">
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>Área do Advogado</mat-card-title>
+      <mat-card-subtitle>Gestão de Sustentações Orais e Memoriais</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Seção de Upload -->
+      <div class="upload-section">
+        <h3>Upload de Sustentações Orais</h3>
+
+        <div class="upload-area"
+             [class.dragover]="isDragOver"
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave($event)"
+             (drop)="onDrop($event)"
+             (click)="fileInput.click()">
+          <mat-icon class="upload-icon">cloud_upload</mat-icon>
+          <p>Arraste arquivos aqui ou clique para selecionar</p>
+          <p class="upload-hint">Formatos aceitos: PDF, DOC, DOCX, MP3, MP4</p>
+
+          <input #fileInput
+                 type="file"
+                 multiple
+                 accept=".pdf,.doc,.docx,.mp3,.mp4"
+                 (change)="onFileSelected($event)"
+                 style="display: none;">
+        </div>
+
+        <button mat-raised-button
+                class="upload-button"
+                (click)="fileInput.click()"
+                [disabled]="isUploading">
+          <mat-icon>attach_file</mat-icon>
+          Selecionar Arquivos
+        </button>
+      </div>
+
+      <!-- Lista de Arquivos Selecionados -->
+      <div class="selected-files" *ngIf="selectedFiles.length > 0">
+        <h4>Arquivos Selecionados</h4>
+        <mat-list>
+          <mat-list-item *ngFor="let file of selectedFiles; let i = index">
+            <mat-icon matListItemIcon>description</mat-icon>
+            <div matListItemTitle>{{ file.name }}</div>
+            <div matListItemLine>{{ formatFileSize(file.size) }}</div>
+            <button mat-icon-button
+                    (click)="removeSelectedFile(i)"
+                    matListItemMeta>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+
+        <div class="upload-actions">
+          <button mat-raised-button
+                  color="primary"
+                  (click)="uploadFiles()"
+                  [disabled]="isUploading || selectedFiles.length === 0"
+                  class="upload-submit-button">
+            <mat-icon *ngIf="!isUploading">cloud_upload</mat-icon>
+            <mat-icon *ngIf="isUploading" class="spinning">refresh</mat-icon>
+            {{ isUploading ? 'Enviando...' : 'Fazer Upload' }}
+          </button>
+
+          <button mat-button
+                  (click)="clearSelectedFiles()"
+                  [disabled]="isUploading">
+            Limpar Tudo
+          </button>
+        </div>
+      </div>
+
+      <!-- Progresso do Upload -->
+      <div class="upload-progress" *ngIf="uploadProgress > 0">
+        <mat-progress-bar mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+        <p>Progresso: {{ uploadProgress }}%</p>
+      </div>
+
+      <!-- Lista de Sustentações Enviadas -->
+      <div class="uploaded-files">
+        <h3>Sustentações Enviadas</h3>
+
+        <mat-table [dataSource]="uploadedFiles" class="files-table">
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Nome do Arquivo</mat-header-cell>
+            <mat-cell *matCellDef="let file">{{ file.name }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="size">
+            <mat-header-cell *matHeaderCellDef>Tamanho</mat-header-cell>
+            <mat-cell *matCellDef="let file">{{ formatFileSize(file.size) }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="date">
+            <mat-header-cell *matHeaderCellDef>Data de Upload</mat-header-cell>
+            <mat-cell *matCellDef="let file">{{ file.uploadDate | date:'dd/MM/yyyy HH:mm' }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+            <mat-cell *matCellDef="let file">
+              <button mat-icon-button (click)="downloadFile(file)" matTooltip="Download">
+                <mat-icon>download</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteFile(file)" matTooltip="Excluir">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <div class="no-files" *ngIf="uploadedFiles.length === 0">
+          <mat-icon>folder_open</mat-icon>
+          <p>Nenhuma sustentação enviada ainda</p>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

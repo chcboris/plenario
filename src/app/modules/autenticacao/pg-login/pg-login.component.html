@@ -1,0 +1,78 @@
+<div class="login-container" [ngStyle]="fundoLogin()">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Plenário Virtual</mat-card-title>
+      <mat-card-subtitle>Entre com suas credenciais</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+
+      <div aria-label="Mensagem de erro" class="col mx-auto text-center alert alert-danger bg-danger tamanhoErro" *ngIf="mensagemResposta" >
+        <span class = "fs-6 p-1 text-center text-white" role="alert" aria-relevant="all">{{ mensagemResposta }}</span>
+      </div>
+
+      <form [formGroup]="formUsuario" (ngSubmit)="autenticar()" class="login-form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Usuário</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="login"
+            placeholder="Digite seu usuário"
+          >
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error *ngIf="formUsuario.get('login')?.hasError('required')">
+            Usuário é obrigatório
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Senha</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="senha"
+            placeholder="Digite sua senha"
+          >
+          <mat-icon matSuffix>lock</mat-icon>
+          <mat-error *ngIf="formUsuario.get('senha')?.hasError('required')">
+            Senha é obrigatória
+          </mat-error>
+          <mat-error *ngIf="formUsuario.get('senha')?.hasError('minlength')">
+            Senha deve ter pelo menos 6 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="full-width login-button"
+          [disabled]="formUsuario.invalid">
+          <mat-icon>login</mat-icon>
+          Entrar
+        </button>
+      </form>
+    </mat-card-content>
+
+
+
+    <mat-card-actions class="login-actions">
+      <button
+        mat-button
+        (click)="esqueceuASenha()"
+      >
+        <mat-icon>help</mat-icon>
+        Esqueci a senha
+      </button>
+
+      <button
+        mat-stroked-button
+        (click)="cadastrarUsuarioExterno()"
+      >
+        <mat-icon>person_add</mat-icon>
+        Primeiro Acesso
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

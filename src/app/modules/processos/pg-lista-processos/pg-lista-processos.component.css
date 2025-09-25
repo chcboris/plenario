@@ -1,0 +1,87 @@
+.fundoComponente {
+  background-color: rgb(228, 226, 226);
+  color: rgb(73, 73, 73);
+  min-height: 87vh;
+  max-height: 87vh;
+}
+
+.titulo {
+  display: flex;
+  font-size: 18px;
+  padding: 5px 15px;
+  justify-content: space-between; /* nome na esquerda, filtro na direita */
+  align-items: center;            /* alinha verticalmente no centro */
+  font-weight: 500;
+}
+
+.nome {
+  display: flex;
+  flex-direction: column;
+}
+
+.filtroJulgados {
+  margin-top: 20px;
+}
+
+.sessao{
+  font-size: 20px;
+  color: #5a362b;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.tipoSessao {
+  color: #0044cc;
+  border-radius: 20px;
+}
+
+.modalidade {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.labelComposicao {
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.composicao {
+  font-size: 14px;
+}
+
+.lista-processos {
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  background-color: rgb(194, 191, 191);
+
+  max-height: 768px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 4px;
+  min-height: 768px;
+}
+
+.processo-card {
+  margin: 0.4rem;
+  border: 1px solid #ccc;
+  height: 200px;
+}
+
+.semProcessos {
+  font-size: 16px;
+  border-radius: 20px;
+  padding: 5px;
+  font-weight: 600;
+  font-style: italic;
+  color: #5a362b;
+  margin-left: 10px;
+}
+
+/*** Ajustes classes do angular ***/
+.mat-button-toggle-appearance-standard.mat-button-toggle-checked {
+  background-color: rgb(173, 204, 214);;
+}
+
+
+

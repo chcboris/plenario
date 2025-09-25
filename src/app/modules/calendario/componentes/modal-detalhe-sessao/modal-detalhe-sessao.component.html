@@ -1,0 +1,27 @@
+<mat-card class="card" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title class="tituloCard">Detalhes da Sessão</mat-card-title>
+    <mat-card-subtitle class="subtituloCard">{{sessao?.descricao}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="dadosSessao">
+      <span><strong>Data:</strong> {{sessao?.data | date: 'dd/MM/yyyy'}}</span>
+      <span><strong>Horário de início:</strong> {{sessao?.hora}}</span>
+      <span><strong>Modalidade:</strong> {{sessao?.tipoSessaoFormatada}}</span>
+      <span><strong>Quantidade de processos:</strong> {{sessao?.quantidadeProcessos}}</span>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+      <div class="acoes">
+        <button mat-raised-button type="submit" (click)="visualizarProcessos()" class="botaoVisualizarProcesso">
+          <mat-icon>search</mat-icon>
+          Visualizar Processos
+        </button>
+      </div>
+  </mat-card-actions>
+</mat-card>
+
+
+

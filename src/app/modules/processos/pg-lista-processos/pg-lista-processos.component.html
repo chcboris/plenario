@@ -1,0 +1,49 @@
+<div class="fundoComponente">
+  <div class="titulo">
+    <div class="nome">
+      <span class="sessao">{{ sessao?.descricao }} {{ sessao?.hora}}</span>
+      <div *ngIf="sessao?.composicao">
+        <span class="labelComposicao">Desembargadores que compõem a sessão: </span>
+        <span class="composicao">{{ sessao?.composicao}}</span>
+      </div>
+    </div>
+
+    <div class="filtroJulgados">
+      <mat-button-toggle-group
+        name="filtroJulgados"
+        aria-label="Julgados / Não Julgados"
+        class="small-toggle"
+        [formControl]="filtroJulgados">
+        <mat-button-toggle value="1">JULGADOS ({{ quantidadeJulgados}})</mat-button-toggle>
+        <mat-button-toggle value="0">NÃO JULGADOS ({{ quantidadeNaoJulgados}})</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+
+  <div class="lista-processos">
+    @if(this.sessao && this.sessao.processos && this.sessao.processos.length > 0){
+      @if (processosFiltrados.length > 0) {
+        @for (processo of processosFiltrados; track $index) {
+          <app-item-lista-processos [processoSignal]="processo" [virtual]="sessaoSignal()?.tipoSessaoFormatada"></app-item-lista-processos>
+        }
+      } @else {
+        <mat-card class="processo-card-sem-processo">
+          <div class="semProcessos">
+            <span>Não existem processos {{ this.filtroJulgados.value === '1'? 'julgados' : 'não julgados' }} nessa sessão.</span>
+          </div>
+        </mat-card>
+      }
+
+    } @else if(this.sessao && this.sessao.processos && this.sessao.processos.length <= 0){
+      <mat-card class="processo-card-sem-processo">
+        <div class="semProcessos">
+          <span>Essa sessão não possui nenhum processo em pauta no momento.</span>
+        </div>
+      </mat-card>
+    }
+  </div>
+</div>
+
+
+
+

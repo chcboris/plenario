@@ -1,0 +1,134 @@
+<mat-card class="processo-card">
+  <!-- Linha do cabeçalho -->
+  <div class="cabecalho">
+    <div class="esquerda">
+      <span class="numero">{{ processo?.ordemPauta }}</span>
+      <div class="titulo">
+        <span class="processo">{{ processo?.identificacao }}</span>
+        <span class="assunto">{{ processo?.assunto }}</span>
+      </div>
+    </div>
+
+    <!-- Só a barra das abas -->
+    <div class="direita">
+      <mat-tab-group
+        class="abas"
+        [(selectedIndex)]="abaSelecionada"
+        (selectedTabChange)="onTabChange($event)">
+        <mat-tab label="VOTOS"></mat-tab>
+        <mat-tab label="RELATÓRIO"></mat-tab>
+        <mat-tab label="EMENTA"></mat-tab>
+        <mat-tab label="PARECERES"></mat-tab>
+        <mat-tab label="MEMORIAIS"></mat-tab>
+        @if (exibeSustentacaoOral()) {
+          <mat-tab label="SUSTENTAÇÕES ORAIS"></mat-tab>
+        }
+        <mat-tab label="PROCESSO"></mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+
+  <!-- Conteúdo das abas -->
+  <div class="conteudo-abas">
+    <ng-container [ngSwitch]="abaSelecionada">
+      <div *ngSwitchCase="0">
+        <div class="conteudo fundoVoto">
+          @if (processo && processo.votos && processo.votos.length > 0) {
+            <div class="coluna">
+              <table class="table table-striped tamanhoTabela">
+                <thead>
+                  <tr>
+                    <th scope="col">Tipo</th>
+                    <th scope="col" class="centralizado">Qtd</th>
+                    <th scope="col">Desembargador(a)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @if (processo && processo.votos) {
+                    @for (voto of processo.votos; track $index) {
+                      <tr>
+                        @if(voto.tipoVoto != null){
+                          <td><span>{{ voto.tipoVoto }}</span></td>
+                          <td class="centralizado"><span>{{ voto.quantidade }}</span></td>
+                          <td><span [innerHTML]="obterVotosFormatados(voto.magistrados)"></span></td>
+                        }
+                      </tr>
+                    }
+                  }
+                </tbody>
+              </table>
+
+              <strong>Omissos: </strong><span [innerHTML]="obterOmissos()"> </span>
+
+          </div>
+
+          <div class="coluna">
+              <span><strong>Conteúdo dos votos </strong></span><br/>
+              @for (votoConteudo of processo.votosConteudo; track $index) {
+                <div class="listaConteudoVotos">
+                  <span>{{ votoConteudo.magistrado }}</span>
+                  <mat-icon class="iconeVoto" (click)="abrirVoto(votoConteudo)">how_to_vote</mat-icon><br/>
+                </div>
+              }
+          </div>
+
+          } @else {
+            <span class="labelSemVotos">Não existem votos para esse processo</span>
+          }
+        </div>
+      </div>
+      <div *ngSwitchCase="1">
+        <div class="conteudo">
+          <div class="fundoDocumento">
+            <span [innerHTML]="obterDocumento('Relatório')"></span>
+          </div>
+        </div>
+      </div>
+      <div *ngSwitchCase="2">
+        <div class="conteudo">
+          <div class="fundoDocumento">
+            <span [innerHTML]="obterDocumento('Ementa')"></span>
+          </div>
+        </div>
+      </div>
+      <div *ngSwitchCase="3">Conteúdo da aba PARECERES</div>
+      <div *ngSwitchCase="4">Conteúdo da aba MEMORIAIS</div>
+      @if (exibeSustentacaoOral()) {
+        <div *ngSwitchCase="5">Conteúdo da aba SUSTENTAÇÕES ORAIS</div>
+      }
+      <div *ngSwitchDefault>
+        <div class="conteudo">
+          <div class="coluna">
+            <p><strong>RELATOR(A)</strong><br>{{exibirRelator()}}</p>
+            <p><strong>PROCEDÊNCIA</strong><br>{{ processo?.origem }}</p>
+
+            @if (processo?.situacaoJulgamento !== 'Julgado') {
+              <p><strong>SITUAÇÃO</strong><br>{{ processo?.situacaoJulgamento }}</p>
+            }
+          </div>
+          <div class="coluna">
+            @for (parte of processo?.partesAdvogados; track $index) {
+              <p>
+                 <strong>{{ parte.descricaoParte }}</strong><br>
+                 <i><span [innerHTML]=parte.advogadosParte></span></i>
+              </p>
+            }
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+   <!-- Proclamacao -->
+  @if (processo?.proclamacao) {
+   <div class="proclamacao" >
+    <p>{{ processo?.proclamacao }}</p>
+  </div>
+  }
+
+  <mat-card-footer class="footer">
+    <button mat-stroked-button (click)="redirecionaConsultaTSE()" class="botaoAcordao">
+      📄 Acórdão - Consulta Pública
+    </button>
+  </mat-card-footer>
+</mat-card>

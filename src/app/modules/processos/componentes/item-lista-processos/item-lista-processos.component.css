@@ -1,0 +1,172 @@
+.headerPrincipal {
+  min-height: 7vh;
+}
+.processo-card {
+  margin: 0.4rem;
+  border: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: .5rem;
+  background: #f5f5f5;
+  gap: 0.5em;
+}
+.esquerda {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+.numero {
+  background: #607d8b;
+  color: #fff;
+  font-weight: bold;
+  padding: .3rem .6rem;
+  border-radius: 4px;
+  margin-right: 1rem;
+}
+.titulo {
+  display: flex;
+  flex-direction: column;
+}
+.assunto {
+  font-size: .9rem;
+  color: #555;
+}
+.processo {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #0044cc;
+}
+.direita {
+  flex: 1;
+}
+
+.abas {
+  margin-top: 1rem; /* separa a segunda linha do cabeçalho */
+}
+
+.conteudo-abas {
+  background-color: #e0dfdf;
+  padding: 5px;
+}
+
+.conteudo {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0.4rem;
+  font-size: 14px;
+  min-height: 200px;
+  background-color: whitesmoke;
+
+}
+.coluna {
+  flex: 1;
+  margin-right: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+
+.proclamacao {
+  background: rgb(173, 204, 214);
+  margin: 0.5rem;
+  padding: .6rem;
+  font-style: italic;
+  font-size: 13px;
+  border: 1px solid rgb(196, 194, 194);
+  font-weight: 600;
+  overflow-y: auto;
+}
+
+
+.footer {
+  padding-top: 5px;
+  padding-left: 8px;
+}
+
+/* largura da barra */
+.coluna::-webkit-scrollbar {
+  width: 3px; /* deixa mais fino */
+}
+
+/* trilho (fundo do scroll) */
+.coluna::-webkit-scrollbar-track {
+  background: transparent; /* pode mudar a cor */
+}
+
+/* parte que desliza */
+.coluna::-webkit-scrollbar-thumb {
+  background-color: #888; /* cor do scroll */
+  border-radius: 10px;    /* arredondado */
+}
+
+/* ao passar o mouse */
+.coluna::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.processo-card-sem-processo {
+  margin: 0.4rem;
+  border: 1px solid #ccc;
+  height: 150px;
+}
+
+.botaoAcordao {
+  background-color: rgb(226, 225, 225);
+  color: #467caf;
+}
+
+.fundoDocumento {
+  flex: 1;
+  margin-right: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+  background-color: rgb(232, 241, 247);
+  padding: 5px;
+}
+
+.fundoVoto {
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+  background-color: rgb(232, 241, 247);
+  padding: 10px;
+}
+
+.tabela {
+  flex: 1;
+
+}
+
+.tamanhoTabela {
+  width: 80% !important;
+  border: 0.5px solid rgb(151, 151, 151);
+}
+
+.iconeVoto {
+  vertical-align: bottom !important;
+  cursor: pointer;
+  margin-left: 5px;
+  color: #346da1 !important;
+}
+
+.listaConteudoVotos {
+  padding: 3px 0;
+}
+
+.labelSemVotos {
+  font-size: 16px;
+  color: #555;
+  font-weight: 500;
+  font-style: italic;
+}
+

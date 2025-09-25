@@ -1,0 +1,43 @@
+.tituloModal {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.dadosSessao {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
+}
+
+.card {
+  max-width: 580px;
+  padding: 5px;
+  background-color: whitesmoke;
+}
+
+.tituloCard {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(201, 85, 72);
+}
+
+.subtituloCard {
+  font-size: 16px;
+  font-style: italic;
+  padding: 2px;
+  margin-bottom: 10px;
+}
+
+.acoes {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.botaoVisualizarProcesso {
+  background-color: #467caf;
+  color: white;
+}
+

@@ -1,0 +1,61 @@
+:root {
+  --mat-sys-surface: #467caf;
+  --mdc-outlined-text-field-focus-outline-color: #467caf;
+  --mdc-outlined-text-field-focus-label-text-color: #467caf;
+}
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto,
+  "Helvetica Neue", sans-serif;
+  background-color: rgb(66, 77, 97);
+}
+
+/* Fontes básicos */
+.negrito {
+  font-weight: 500 !important;
+}
+
+.italico {
+  font-style: italic !important;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.alinharDireita {
+  float: right;
+}
+
+.alinharEsquerda {
+  float: left;
+}
+
+.centralizado {
+  text-align: center !important;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+/* Escopo global (ex: styles.scss) */
+.small-toggle .mat-button-toggle {
+  height: 24px;           /* altura do botão */
+  min-width: 40px;        /* largura mínima */
+  padding: 0 4px;         /* padding reduzido */
+  line-height: 24px;      /* alinha verticalmente */
+  display: flex;
+  align-items: center;    /* centraliza verticalmente */
+  justify-content: center; /* centraliza horizontalmente */
+  font-size: 11px;        /* tamanho do texto */
+}
+
+.small-toggle .mat-button-toggle-label-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}

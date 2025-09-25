@@ -1,0 +1,130 @@
+.login-container {
+  min-height: 99.1vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(10deg, #616161 0%,#a3a2a2  100%);
+  padding: 10px;
+}
+
+.mat-mdc-card-header {
+  text-align: center;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  animation: slideUp 0.6s ease-out;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  margin: auto;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.tamanhoErro {
+  font-size: 16px;
+  width: 100%;
+  line-height: 0.7;
+  padding: 10px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.login-button {
+  margin-top: 16px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+}
+
+mat-card-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+mat-card-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 600;
+  color: #467caf;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+mat-card-subtitle {
+  text-align: center;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-style: italic;
+  color: #616161;
+}
+
+.login-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.login-actions button {
+  width: 100%;
+  max-width: 200px;
+}
+
+.login-actions button {
+  color: #616161;
+  font-weight: 500;
+}
+
+.login-actions button:hover {
+  background-color: rgba(97, 97, 97, 0.1);
+  color: #0366c4;
+}
+
+/* Ícones na cor primária */
+mat-icon {
+  color: #467caf !important;
+}
+
+/* Garantir texto branco nos botões */
+.login-button {
+  color: white !important;
+}
+
+.login-button mat-icon {
+  color: white !important;
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 10px;
+  }
+
+  .login-card {
+    max-width: 100%;
+  }
+}

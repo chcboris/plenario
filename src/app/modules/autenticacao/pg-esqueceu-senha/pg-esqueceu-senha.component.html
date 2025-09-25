@@ -1,0 +1,85 @@
+<div class="forgot-password-container" [ngStyle]="fundoLogin()">
+  <mat-card class="forgot-password-card">
+    <mat-card-header>
+      @if (isPrimeiroAcesso()) {
+        <mat-card-title>Primeiro Acesso</mat-card-title>
+      } @else {
+        <mat-card-title>Recuperar Senha</mat-card-title>
+      }
+      <mat-card-subtitle *ngIf="!isSubmitted">Digite seu e-mail para receber as instruções</mat-card-subtitle>
+      <mat-card-subtitle *ngIf="isSubmitted">E-mail enviado com sucesso!</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+
+      <div aria-label="Mensagem de sucesso" class="col mx-auto text-center bg-success mensagemSucesso" *ngIf="mensagemSucesso" >
+        <span class = "fs-6 p-1 text-center text-white" aria-relevant="all">{{ mensagemSucesso }}</span>
+      </div>
+
+      <div aria-label="Mensagem de erro" class="col mx-auto text-center alert alert-danger bg-danger tamanhoErro" *ngIf="mensagemResposta" >
+        <span class = "fs-6 p-1 text-center text-white" role="alert" aria-relevant="all">{{ mensagemResposta }}</span>
+      </div>
+
+      <!-- Formulário de recuperação -->
+      <div *ngIf="!isSubmitted">
+        <form [formGroup]="esqueceuSenhaForm" (ngSubmit)="recuperarSenha()" class="forgot-password-form">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>E-mail</mat-label>
+            <input
+              matInput
+              type="email"
+              formControlName="email"
+              placeholder="Digite seu e-mail cadastrado"
+            >
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="esqueceuSenhaForm.get('email')?.hasError('required')">
+              E-mail é obrigatório
+            </mat-error>
+            <mat-error *ngIf="esqueceuSenhaForm.get('email')?.hasError('email')">
+              E-mail deve ter um formato válido
+            </mat-error>
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="full-width forgot-password-button"
+            [disabled]="esqueceuSenhaForm.invalid || isLoading"
+          >
+            <mat-icon *ngIf="!isLoading">send</mat-icon>
+            <mat-icon *ngIf="isLoading" class="spinning">refresh</mat-icon>
+            {{ isLoading ? 'Enviando...' : 'Enviar Instruções' }}
+          </button>
+        </form>
+      </div>
+
+      <!-- Mensagem de sucesso -->
+      <div *ngIf="isSubmitted" class="success-message">
+        <mat-icon class="success-icon">check_circle</mat-icon>
+        <p>Enviamos as instruções para recuperação de senha para o seu e-mail.</p>
+        <p class="small-text">Verifique sua caixa de entrada e spam.</p>
+
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="reenviarEmail()"
+          class="full-width resend-button"
+        >
+          <mat-icon>refresh</mat-icon>
+          Reenviar E-mail
+        </button>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="forgot-password-actions">
+      <button
+        mat-button
+        (click)="voltarAoLogin()"
+      >
+        <mat-icon>arrow_back</mat-icon>
+        Voltar ao Login
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

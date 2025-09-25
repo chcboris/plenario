@@ -1,0 +1,66 @@
+<div class="login-container" [ngStyle]="fundoLogin()">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Plenário Virtual</mat-card-title>
+      <mat-card-subtitle>Cadastro de nova senha</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <div aria-label="Mensagem de sucesso" class="col mx-auto my-3 text-center bg-success" *ngIf="mensagemSucesso" >
+          <span class = "fs-6 p-1 text-center text-white" role="alert" aria-relevant="all">{{ mensagemSucesso}}</span>
+        </div>
+        <div aria-label="Mensagem de erro" class="col mx-auto my-3 text-center alert alert-danger bg-danger" *ngIf="mensagemResposta" >
+          <span class = "fs-6 p-1 text-center text-white" role="alert" aria-relevant="all">{{ mensagemResposta }}</span>
+        </div>
+
+        <form [formGroup]="formTrocarSenha" (ngSubmit)="trocarSenha()" class="login-form">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Senha</mat-label>
+            <input
+              matInput
+              type="password"
+              formControlName="novaSenha"
+              placeholder="Digite sua senha"
+            >
+            <mat-icon matSuffix>lock</mat-icon>
+            <mat-error *ngIf="formTrocarSenha.get('novaSenha')?.hasError('required')">
+              Senha é obrigatória
+            </mat-error>
+            <mat-error *ngIf="formTrocarSenha.get('novaSenha')?.hasError('minlength')">
+              Senha deve ter pelo menos 8 caracteres
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Repetir Senha</mat-label>
+            <input
+              matInput
+              type="password"
+              formControlName="repeteSenha"
+              placeholder="Confirme sua senha"
+            >
+            <mat-icon matSuffix>lock_outline</mat-icon>
+            <mat-error *ngIf="formTrocarSenha.get('repeteSenha')?.hasError('required')">
+              Confirmação de senha é obrigatória
+            </mat-error>
+            <mat-error *ngIf="formTrocarSenha.get('repeteSenha')?.hasError('senhasdiferentes')">
+              Senhas não coincidem
+            </mat-error>
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="full-width login-button"
+            [disabled]="formTrocarSenha.invalid">
+            <mat-icon>login</mat-icon>
+            Enviar
+          </button>
+
+        </form>
+    </mat-card-content>
+  </mat-card>
+
+
+

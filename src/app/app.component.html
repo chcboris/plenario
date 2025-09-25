@@ -1,0 +1,19 @@
+<div class="d-flex flex-column min-vh-100">
+  @if (exibeHeaderFooter()) {
+  <header>
+    <app-header></app-header>
+  </header>
+  }
+
+  <main role="main" aria-label="main">
+    <div class="pt-1 pb-1 corfundo">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  @if (exibeHeaderFooter()) {
+    <footer class="mt-auto">
+      <app-footer></app-footer>
+    </footer>
+  }
+</div>

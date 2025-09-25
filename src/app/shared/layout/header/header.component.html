@@ -1,0 +1,43 @@
+<nav class="headerPrincipal">
+  <mat-toolbar class="corMatBar">
+    <mat-toolbar-row class="alturaLinha">
+      <div class="logo-container" routerLink="">
+        <img
+          src="./assets/img/logoJE.png"
+          class="treLogo"
+          aria-hidden="true"
+          alt="Logo justiça"
+        />
+
+        <div class="fonteNome">
+          <span class="logo">Plenário Virtual</span><br>
+          <span class="subtitulo-logo">Acompanhamento de Sessões</span>
+        </div>
+      </div>
+
+      <div class="areaLogin">
+        @if (isLogado()) {
+            <div class="logadoDescricao">
+              <button mat-icon-button aria-label="Usuário Logado">
+                <mat-icon class="corIcone">person</mat-icon>
+              </button>
+              <span [innerHTML]="descricaoUsuario" class="mt-1"></span>
+            </div>
+            <div class="logadoDescricao">
+              <button mat-icon-button aria-label="Botão Sair" (click)="logOut()">
+                <mat-icon aria-hidden="false" aria-label="Icone sair" class="corIcone">exit_to_app</mat-icon>
+              </button>
+              <span (click)="logOut()" class="linkCursor mt-1">Sair</span>
+            </div>
+        } @else {
+          <button mat-button aria-label="Botão login" class="botaoLogin" (click)="logIn()">
+            <span>Login</span>
+            <mat-icon class="corIcone">login</mat-icon>
+          </button>
+        }
+     </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</nav>
+
+

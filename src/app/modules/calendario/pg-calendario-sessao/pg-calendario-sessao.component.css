@@ -1,0 +1,51 @@
+.fundoComponente {
+  background-color: rgb(228, 226, 226);
+  max-height: 87vh;
+  min-height: 87vh;
+}
+
+.titulo {
+  font-size: 26px;
+  padding: 5px;
+  text-align: center;
+  color: rgb(73, 73, 73);
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: bold;
+}
+
+.calendar-app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: white;
+}
+
+.calendar-container {
+  margin: 10px 0;
+}
+
+:host ::ng-deep .fc-event-title {
+  white-space: pre-line !important;
+  line-height: 1.2 !important;
+  font-size: 11px !important;
+}
+
+/* Alternativa mais específica se a primeira não funcionar */
+:host ::ng-deep .fc-daygrid-event .fc-event-title {
+  white-space: pre-line !important;
+  line-height: 1.4 !important;
+  font-size: 13px !important;
+  word-wrap: break-word !important;
+}
+
+/* Para garantir que o evento tenha altura suficiente */
+:host ::ng-deep .fc-daygrid-event {
+  min-height: 30px !important;
+  padding: 2px 4px !important;
+}
+
+/* Se precisar de mais espaço vertical nas células */
+:host ::ng-deep .fc-daygrid-day-events {
+  margin-bottom: 2px !important;
+}

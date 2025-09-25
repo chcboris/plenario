@@ -1,0 +1,28 @@
+.corFundoFooter {
+  color: white;
+  background: linear-gradient(to right, #434444, rgba(0, 0, 0, 0.8));
+  padding: 5px 20px;
+  font-size: 11px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 5vh;
+}
+
+.alinharEsquerda {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.descricao {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  line-height: 0.7;
+}
+
+.alinharDireita {
+    text-align: right;
+}

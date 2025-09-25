@@ -1,0 +1,137 @@
+.register-container {
+  min-height: 99.1vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(10deg, #616161 0%,#a3a2a2  100%);
+}
+
+.mat-mdc-card-header {
+  text-align: center;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 450px;
+  animation: slideUp 0.6s ease-out;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  margin: auto;
+}
+
+
+mat-card-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+mat-card-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 500;
+  color: #467caf;
+}
+
+mat-card-subtitle {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.register-button {
+  margin-top: 16px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  background: #467caf;
+  color: white;
+  border: none;
+}
+
+.register-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 24px 24px;
+}
+
+.register-actions button {
+  background: #dfdddd;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 500;
+  justify-content: center;
+  color: #333;
+}
+
+.register-actions button:hover {
+  background: #f6f6f7;
+}
+
+/* Ícones na cor primária */
+mat-icon {
+  color: #467caf !important;
+}
+
+/* Garantir texto branco nos botões */
+.register-button {
+  color: white !important;
+}
+
+.register-button mat-icon {
+  color: white !important;
+}
+
+/* Estilos específicos para campos de formulário */
+.form-group:nth-child(1) .form-control {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23aaa" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+}
+
+.form-group:nth-child(2) .form-control {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23aaa" viewBox="0 0 16 16"><path d="M2 2A2 2 0 0 0 0 4v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2V4zm13 2.383-4.708 2.825L15 11.105V6.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741zM1 11.105l4.708-2.897L1 6.383v4.722z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+}
+
+@media (max-width: 480px) {
+  .register-container {
+    padding: 10px;
+  }
+
+  .register-card {
+    max-width: 100%;
+  }
+}
