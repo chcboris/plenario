@@ -1,0 +1,184 @@
+<div class="register-container" [ngStyle]="fundoLogin()">
+  <mat-card class="register-card">
+    <mat-card-header>
+      <mat-card-title>Solicitação de Sustentação Oral</mat-card-title>
+      <mat-card-subtitle>Processo: {{ solicitacaoForm.get('numeroProcesso')?.value }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event.index)">
+        
+        <!-- Aba 1: Base Legal -->
+        <mat-tab label="Base Legal">
+          <div class="tab-content">
+            <div class="base-legal-content" [innerHTML]="textoBaseLegal"></div>
+          </div>
+        </mat-tab>
+
+        <!-- Aba 2: Dados do Advogado -->
+        <mat-tab label="Dados do Advogado">
+          <div class="tab-content">
+            <div class="advogado-content">
+              <h3>Dados do Advogado</h3>
+              <p class="info-text">
+                <mat-icon>info</mat-icon>
+                Os dados abaixo são baseados no seu cadastro. Você pode alterar todos os campos exceto o e-mail.
+              </p>
+              
+              <!-- Aqui seria integrado o PgCadastroUsuarioExternoComponent -->
+              <!-- Por simplicidade, vou criar um formulário similar -->
+              <form class="advogado-form">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Nome Completo</mat-label>
+                  <input matInput type="text" [value]="usuario?.usuarioExterno?.nome || 'Dr. Maria Oliveira'">
+                  <mat-icon matSuffix>person</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>E-mail</mat-label>
+                  <input matInput type="email" [value]="usuario?.login || 'maria@advogados.com'" readonly>
+                  <mat-icon matSuffix>email</mat-icon>
+                  <mat-hint>Este campo não pode ser alterado</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>CPF</mat-label>
+                  <input matInput type="text" value="123.456.789-00">
+                  <mat-icon matSuffix>badge</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Número OAB</mat-label>
+                  <input matInput type="text" value="12345/RJ">
+                  <mat-icon matSuffix>gavel</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Telefone Celular</mat-label>
+                  <input matInput type="text" value="(21) 99999-9999">
+                  <mat-icon matSuffix>phone</mat-icon>
+                </mat-form-field>
+              </form>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Aba 3: Solicitação Sustentação Oral -->
+        <mat-tab label="Solicitação Sustentação Oral">
+          <div class="tab-content">
+            <form [formGroup]="solicitacaoForm" (ngSubmit)="solicitar()" class="solicitacao-form">
+              
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="half-width">
+                  <mat-label>Data da Sessão</mat-label>
+                  <input matInput type="date" formControlName="dataSessao" readonly>
+                  <mat-icon matSuffix>calendar_today</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="half-width">
+                  <mat-label>Número Ordem Pauta</mat-label>
+                  <input matInput type="number" formControlName="numeroOrdemPauta" readonly>
+                  <mat-icon matSuffix>format_list_numbered</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Número do Processo</mat-label>
+                <input matInput type="text" formControlName="numeroProcesso" readonly>
+                <mat-icon matSuffix>description</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Relator</mat-label>
+                <input matInput type="text" formControlName="relator" readonly>
+                <mat-icon matSuffix>person</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Nome da Parte Representada</mat-label>
+                <input matInput type="text" formControlName="nomeParteRepresentada" readonly>
+                <mat-icon matSuffix>business</mat-icon>
+              </mat-form-field>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="half-width">
+                  <mat-label>Nome do Advogado</mat-label>
+                  <input matInput type="text" formControlName="nomeAdvogado" readonly>
+                  <mat-icon matSuffix>person</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="half-width">
+                  <mat-label>Número OAB</mat-label>
+                  <input matInput type="text" formControlName="numeroOAB" readonly>
+                  <mat-icon matSuffix>gavel</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="half-width">
+                  <mat-label>Telefone Celular</mat-label>
+                  <input matInput type="text" formControlName="telefoneCelular" readonly>
+                  <mat-icon matSuffix>phone</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="half-width">
+                  <mat-label>E-mail</mat-label>
+                  <input matInput type="email" formControlName="email" readonly>
+                  <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <!-- Radio buttons para Com Preferência -->
+              <div class="radio-group">
+                <label class="radio-label">Com Preferência *</label>
+                <mat-radio-group formControlName="comPreferencia" class="radio-buttons">
+                  <mat-radio-button [value]="true">SIM</mat-radio-button>
+                  <mat-radio-button [value]="false">NÃO</mat-radio-button>
+                </mat-radio-group>
+                <mat-error *ngIf="solicitacaoForm.get('comPreferencia')?.hasError('required') && solicitacaoForm.get('comPreferencia')?.touched">
+                  Este campo é obrigatório
+                </mat-error>
+              </div>
+
+              <!-- Radio buttons para Modalidade Sustentação -->
+              <div class="radio-group">
+                <label class="radio-label">Modalidade Sustentação *</label>
+                <mat-radio-group formControlName="modalidadeSustentacao" class="radio-buttons">
+                  <mat-radio-button value="virtual">Virtual</mat-radio-button>
+                  <mat-radio-button value="presencial">Presencial</mat-radio-button>
+                </mat-radio-group>
+                <mat-error *ngIf="solicitacaoForm.get('modalidadeSustentacao')?.hasError('required') && solicitacaoForm.get('modalidadeSustentacao')?.touched">
+                  Este campo é obrigatório
+                </mat-error>
+              </div>
+
+              <div class="form-actions">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  class="solicitar-button"
+                  [disabled]="solicitacaoForm.invalid">
+                  <mat-icon>send</mat-icon>
+                  Solicitar
+                </button>
+              </div>
+            </form>
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+    </mat-card-content>
+
+    <mat-card-actions class="register-actions">
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="voltar()"
+        class="full-width">
+        <mat-icon>arrow_back</mat-icon>
+        Voltar à Lista de Processos
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

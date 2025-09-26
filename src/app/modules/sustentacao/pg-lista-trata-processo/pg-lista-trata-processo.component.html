@@ -1,0 +1,86 @@
+<div class="register-container" [ngStyle]="fundoLogin()">
+  <mat-card class="register-card">
+    <mat-card-header>
+      <mat-card-title>Lista de Processos para Sustentação Oral</mat-card-title>
+      <mat-card-subtitle>Processos vinculados ao seu usuário</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="table-container">
+        <mat-table [dataSource]="dataSource" class="processos-table">
+          
+          <ng-container matColumnDef="numeroProcesso">
+            <mat-header-cell *matHeaderCellDef>Número do Processo</mat-header-cell>
+            <mat-cell *matCellDef="let processo">{{ processo.numeroProcesso }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="dataSessao">
+            <mat-header-cell *matHeaderCellDef>Data da Sessão</mat-header-cell>
+            <mat-cell *matCellDef="let processo">{{ processo.dataSessao | date:'dd/MM/yyyy' }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="relator">
+            <mat-header-cell *matHeaderCellDef>Relator</mat-header-cell>
+            <mat-cell *matCellDef="let processo">{{ processo.relator }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nomeParteRepresentada">
+            <mat-header-cell *matHeaderCellDef>Parte Representada</mat-header-cell>
+            <mat-cell *matCellDef="let processo">{{ processo.nomeParteRepresentada }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="modalidadeSustentacao">
+            <mat-header-cell *matHeaderCellDef>Modalidade</mat-header-cell>
+            <mat-cell *matCellDef="let processo">
+              <mat-chip [style.background-color]="processo.modalidadeSustentacao === 'virtual' ? '#ff9800' : '#2196f3'">
+                {{ processo.modalidadeSustentacao | titlecase }}
+              </mat-chip>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+            <mat-cell *matCellDef="let processo">
+              <mat-chip [style.background-color]="obterCorStatus(processo.status)" [style.color]="'white'">
+                {{ processo.status | titlecase }}
+              </mat-chip>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="acao">
+            <mat-header-cell *matHeaderCellDef>Ação</mat-header-cell>
+            <mat-cell *matCellDef="let processo">
+              <button 
+                mat-raised-button 
+                color="primary" 
+                (click)="redirecionarParaSolicitacao(processo)"
+                class="action-button">
+                <mat-icon>edit</mat-icon>
+                Solicitar Sustentação
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <div *ngIf="dataSource.length === 0" class="no-data">
+          <mat-icon>info</mat-icon>
+          <p>Nenhum processo encontrado para o usuário logado.</p>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="register-actions">
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="router.navigate(['/'])"
+        class="full-width">
+        <mat-icon>arrow_back</mat-icon>
+        Voltar ao Calendário
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
