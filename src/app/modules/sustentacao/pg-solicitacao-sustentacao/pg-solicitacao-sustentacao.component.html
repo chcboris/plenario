@@ -66,6 +66,13 @@
         <!-- Aba 3: Solicitação Sustentação Oral -->
         <mat-tab label="Solicitação Sustentação Oral">
           <div class="tab-content">
+            <!-- Observação sobre dados pessoais -->
+            <div class="observacao-dados-pessoais">
+              <mat-icon class="warning-icon">warning</mat-icon>
+              <p><strong>Atenção:</strong> Caso os dados pessoais nesta aba estejam desatualizados, 
+              acesse a aba "Dados do Advogado" para verificar e atualizar suas informações antes de fazer a solicitação.</p>
+            </div>
+
             <form [formGroup]="solicitacaoForm" (ngSubmit)="solicitar()" class="solicitacao-form">
               
               <div class="form-row">

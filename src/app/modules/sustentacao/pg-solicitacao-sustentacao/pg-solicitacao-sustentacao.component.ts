@@ -22,6 +22,7 @@ import { Usuario } from '../../../shared/model/usuario';
 // Utils
 import { Criptografia } from '../../../shared/util/criptografia';
 import { Constantes } from '../../../shared/util/constantes';
+import { UsuarioExterno } from '../../../shared/model/usuarioExterno';
 
 @Component({
   selector: 'app-pg-solicitacao-sustentacao',
@@ -130,7 +131,21 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
     // Simulando carregamento de dados - em produção seria uma chamada para o serviço
     if (this.processoId && this.dadosProcesso.length > 0) {
       const dados = this.dadosProcesso[0];
-      this.solicitacaoForm.patchValue(dados);
+      
+      // Carregando dados do usuário logado para preencher automaticamente
+      if (this.usuario) {
+        dados.nomeAdvogado = this.usuario?.usuarioExterno?.nome || 'Dr. Maria Oliveira';
+        //dados.numeroOAB = this.usuario.numeroOAB || '12345/RJ';
+        //dados.telefoneCelular = this.usuario.telefoneCelular || '(21) 99999-9999';
+        dados.email = this.usuario?.usuarioExterno?.email || 'maria@advogados.com';
+      }
+      
+      // Preenchendo o formulário com todos os dados, mas resetando os campos editáveis
+      this.solicitacaoForm.patchValue({
+        ...dados,
+        comPreferencia: null, // Campo editável - resetado para forçar seleção
+        modalidadeSustentacao: null // Campo editável - resetado para forçar seleção
+      });
     }
   }
 

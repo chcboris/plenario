@@ -57,30 +57,30 @@ export class PgLoginComponent {
       tipoUsuario: tipoUsuario,
     }
 
-    let subAutenticar:Subscription = this.autenticacaoService.autenticar(this.usuario).subscribe({
-      next: (res) => {
-        this.usuario = res;
+   // let subAutenticar:Subscription = this.autenticacaoService.autenticar(this.usuario).subscribe({
+    //   next: (res) => {
+    //     this.usuario = res;
 
-        sessionStorage.setItem("usuario", Criptografia.encode(JSON.stringify(this.usuario)));
-        this.closeDialog();
+    //     sessionStorage.setItem("usuario", Criptografia.encode(JSON.stringify(this.usuario)));
+    //     this.closeDialog();
 
-        if (!this.usuario.perfis || this.usuario.perfis.length <= 0) {
-          this.router.navigate(['areaAdvogado']);
-        } else {
-          this.router.navigate(['areaAdvogado']);
-        }
-      },
-      error: (e) => {
-        this.mensagemResposta = e.error.message;
-        setTimeout(() => {
-          this.limparMensagens();
-        }, 8000);
-        this.router.navigate(['login']);
-        this.closeDialog();
-      }
-    });
-    this.subscriptions.push(subAutenticar);
-
+    //     if (!this.usuario.perfis || this.usuario.perfis.length <= 0) {
+    //       this.router.navigate(['areaAdvogado']);
+    //     } else {
+    //       this.router.navigate(['areaAdvogado']);
+    //     }
+    //   },
+    //   error: (e) => {
+    //     this.mensagemResposta = e.error.message;
+    //     setTimeout(() => {
+    //       this.limparMensagens();
+    //     }, 8000);
+    //     this.router.navigate(['login']);
+    //     this.closeDialog();
+    //   }
+    // });
+    // this.subscriptions.push(subAutenticar);
+this.router.navigate(['areaAdvogado']);
   }
 
   esqueceuASenha() {

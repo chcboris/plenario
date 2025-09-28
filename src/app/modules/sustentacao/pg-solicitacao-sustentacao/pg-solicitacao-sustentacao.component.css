@@ -41,6 +41,31 @@
   min-height: 400px;
 }
 
+/* Observação sobre dados pessoais */
+.observacao-dados-pessoais {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  color: #856404;
+}
+
+.observacao-dados-pessoais .warning-icon {
+  color: #f39c12;
+  font-size: 24px;
+  margin-top: 2px;
+}
+
+.observacao-dados-pessoais p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .base-legal-content {
   padding: 20px;
   background: #f8f9fa;
