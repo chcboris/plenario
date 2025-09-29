@@ -22,6 +22,17 @@
   margin: auto;
 }
 
+.tamanhoErro {
+  font-size: 16px;
+  width: 100%;
+  line-height: 0.7;
+  padding: 10px;
+}
+
+.full-width {
+  width: 100%;
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -38,17 +49,6 @@
   flex-direction: column;
   gap: 16px;
   align-items: center;
-}
-
-.tamanhoErro {
-  font-size: 16px;
-  width: 100%;
-  line-height: 0.7;
-  padding: 10px;
-}
-
-.full-width {
-  width: 100%;
 }
 
 .login-button {

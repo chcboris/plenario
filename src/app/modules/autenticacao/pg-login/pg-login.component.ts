@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { Constantes } from '../../../shared/util/constantes';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+
+import { DialogLoadModuleComponent } from '../../../shared/util/dialog-load-module/dialog-load-module.component';
+import { MaterialComponentes } from '../../../shared/util/material.imports';
+import { Constantes } from '../../../shared/util/constantes';
 import { Usuario } from '../../../shared/model/usuario';
 import { AutenticacaoService } from '../../../shared/service/autenticacao.service';
 import { Criptografia } from '../../../shared/util/criptografia';
-import { DialogLoadModuleComponent } from '../../../shared/util/dialog-load-module/dialog-load-module.component';
-import { MaterialComponentes } from '../../../shared/util/material.imports';
 
 @Component({
   selector: 'app-pg-login',
@@ -57,30 +58,30 @@ export class PgLoginComponent {
       tipoUsuario: tipoUsuario,
     }
 
-   // let subAutenticar:Subscription = this.autenticacaoService.autenticar(this.usuario).subscribe({
-    //   next: (res) => {
-    //     this.usuario = res;
+    let subAutenticar:Subscription = this.autenticacaoService.autenticar(this.usuario).subscribe({
+      next: (res) => {
+        this.usuario = res;
 
-    //     sessionStorage.setItem("usuario", Criptografia.encode(JSON.stringify(this.usuario)));
-    //     this.closeDialog();
+        sessionStorage.setItem("usuario", Criptografia.encode(JSON.stringify(this.usuario)));
+        this.closeDialog();
 
-    //     if (!this.usuario.perfis || this.usuario.perfis.length <= 0) {
-    //       this.router.navigate(['areaAdvogado']);
-    //     } else {
-    //       this.router.navigate(['areaAdvogado']);
-    //     }
-    //   },
-    //   error: (e) => {
-    //     this.mensagemResposta = e.error.message;
-    //     setTimeout(() => {
-    //       this.limparMensagens();
-    //     }, 8000);
-    //     this.router.navigate(['login']);
-    //     this.closeDialog();
-    //   }
-    // });
-    // this.subscriptions.push(subAutenticar);
-this.router.navigate(['areaAdvogado']);
+        if (!this.usuario.perfis || this.usuario.perfis.length <= 0) {
+          this.router.navigate(['areaAdvogado']);
+        } else {
+          this.router.navigate(['areaAdvogado']);
+        }
+      },
+      error: (e) => {
+        this.mensagemResposta = e.error.message;
+        setTimeout(() => {
+          this.limparMensagens();
+        }, 8000);
+        this.router.navigate(['login']);
+        this.closeDialog();
+      }
+    });
+    this.subscriptions.push(subAutenticar);
+
   }
 
   esqueceuASenha() {
@@ -97,7 +98,6 @@ this.router.navigate(['areaAdvogado']);
       'background-image': 'url(' + enderecoFundo + ')',
       'width': '100%',
       'height': '100%'
-
     }
   }
 

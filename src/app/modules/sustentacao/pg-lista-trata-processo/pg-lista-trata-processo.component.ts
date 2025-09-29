@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialComponentes } from '../../../shared/util/material.imports';
-import { SustentacaoOral } from '../../../shared/model/sustentacaoOral';
+import { SolicitaSustentacao } from '../../../shared/model/SolicitaSustentacao';
 import { Usuario } from '../../../shared/model/usuario';
 import { Criptografia } from '../../../shared/util/criptografia';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { SustentacaoOral } from '../../../shared/model/sustentacaoProcesso';
 
 @Component({
   selector: 'app-pg-lista-trata-processo',
@@ -20,10 +21,11 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
   
   // Colocando 'dataSessao' como primeira coluna
-  displayedColumns: string[] = ['dataSessao', 'numeroProcesso', 'relator', 'nomeParteRepresentada', 'modalidadeSustentacao', 'status', 'acao'];
-  
+  // displayedColumns: string[] = ['dataSessao', 'ordemPauta', 'numeroProcesso', 'relator', 'nomeParteRepresentada', 'modalidadeSustentacao', 'status', 'acao'];
+  displayedColumns: string[] = ['dataSessao', 'ordemPauta', 'numeroProcesso', 'relator', 'modalidadeSustentacao', 'status', 'acao'];
+
   // Alterando 'dataSource' para MatTableDataSource
-  dataSource = new MatTableDataSource<SustentacaoOral>([]);
+  dataSource = new MatTableDataSource<SolicitaSustentacao>([]);
   usuario?: Usuario;
   subscriptions: Subscription[] = [];
 
@@ -75,270 +77,28 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
   carregarProcessos(): void {
     // Simulando dados para demonstração - em produção seria uma chamada para o serviço
     //if (!this.usuario?.login) {
-      const data: SustentacaoOral[] = [
+      const data: SolicitaSustentacao[] = [
         {
-          id: 1,
-          dataSessao: '2024-02-15',
-          numeroOrdemPauta: 1,
+          id: 1,          
+          idSessao: 1,
+          sessaoData: new Date('2024-01-15'),
+          sessaoTipo: 'Virtual',
+          idProcesso: 1111,
+          ordemPauta: 1,
           numeroProcesso: '0001234-56.2024.6.19.0015',
-          relator: 'Des. João Silva',
-          nomeParteRepresentada: 'João dos Santos',
-          nomeAdvogado: 'Dr. Maria Oliveira',
-          numeroOAB: '12345/RJ',
-          telefoneCelular: '(21) 99999-9999',
-          email: 'maria@advogados.com',
-          comPreferencia: true,
-          modalidadeSustentacao: 'virtual',
-          loginAdvogado: 'chc',
-          status: 'pendente',
-          dataInclusao: new Date('2024-01-15')
-        },
-        {
-          id: 2,
-          dataSessao: '2024-02-20',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0014',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        },
-        {
-          id: 3,
-          dataSessao: '2024-02-13',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0013',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        },
-        {
-          id: 4,
-          dataSessao: '2024-02-12',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0012',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        },
-        {
-          id: 5,
-          dataSessao: '2024-02-11',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0011',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        },
-        {
-          id: 6,
-          dataSessao: '2024-02-10',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0010',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        },
-        {
-          id: 7,
-          dataSessao: '2024-02-09',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0009',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        },
-        {
-          id: 8,
-          dataSessao: '2024-02-08',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0008',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        },
-        {
-          id: 9,
-          dataSessao: '2024-02-07',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0007',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        },
-        {
-          id: 10,
-          dataSessao: '2024-02-20',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0006',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        },
-        {
-          id: 11,
-          dataSessao: '2024-02-20',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0005',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        },
-        {
-          id: 12,
-          dataSessao: '2024-02-20',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0004',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        },
-        {
-          id: 13,
-          dataSessao: '2024-02-20',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0003',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        },
-        {
-          id: 14,
-          dataSessao: '2024-02-20',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0002',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        },
-        {
-          id: 15,
-          dataSessao: '2024-02-20',
-          numeroOrdemPauta: 3,
-          numeroProcesso: '0002345-67.2024.6.19.0001',
-          relator: 'Des. Ana Costa',
-          nomeParteRepresentada: 'Empresa XYZ Ltda',
-          nomeAdvogado: 'Dr. Carlos Santos',
-          numeroOAB: '67890/RJ',
-          telefoneCelular: '(21) 88888-8888',
-          email: 'carlos@escritorio.com',
-          comPreferencia: false,
-          modalidadeSustentacao: 'presencial',
-          loginAdvogado: 'chc',
-          status: 'aprovado',
-          dataInclusao: new Date('2024-01-10')
-        }
-        // Adicionar mais dados simulados se necessário para testar a paginação
+          juizRelator: 'Des. João Silva',
+          status: 0,
+          advogadoNome: 'Dr. Maria Oliveira',
+          advogadoCodigoOab: '12345/RJ',
+          advogadoSituacao: 'at',
+        }             
       ];
       this.dataSource.data = data; // Atribui os dados ao MatTableDataSource
     //}
   }
 
   redirecionarParaSolicitacao(processo: SustentacaoOral): void {
-    this.router.navigate(['/pg-solicitacao-sustentacao', processo.id]);
+    //this.router.navigate(['/pg-solicitacao-sustentacao', processo.id]);
   }
 
   obterCorStatus(status: string): string {

@@ -19,25 +19,11 @@
   flex-direction: column;
 }
 
-.filtroJulgados {
-  margin-top: 20px;
-}
-
 .sessao{
   font-size: 20px;
   color: #5a362b;
   font-style: italic;
   font-weight: 500;
-}
-
-.tipoSessao {
-  color: #0044cc;
-  border-radius: 20px;
-}
-
-.modalidade {
-  font-size: 16px;
-  font-weight: bold;
 }
 
 .labelComposicao {
@@ -50,6 +36,10 @@
   font-size: 14px;
 }
 
+.filtroJulgados {
+  margin-top: 20px;
+}
+
 .lista-processos {
   margin: 0 auto;
   font-family: Arial, sans-serif;
@@ -59,13 +49,25 @@
   overflow-y: auto;
   border: 1px solid #ccc;
   padding: 4px;
-  min-height: 768px;
+  min-height: 740px;
 }
 
-.processo-card {
+.lista-processos-composicao {
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  background-color: rgb(194, 191, 191);
+
+  max-height: 740px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 4px;
+  min-height: 740px;
+}
+
+.processo-card-sem-processo {
   margin: 0.4rem;
   border: 1px solid #ccc;
-  height: 200px;
+  max-height: 200px;
 }
 
 .semProcessos {

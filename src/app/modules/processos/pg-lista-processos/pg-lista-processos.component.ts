@@ -110,6 +110,10 @@ export class PgListaProcessosComponent {
     return `<strong>Composição da sessão:</strong> <i>${this.sessao?.composicao}</i>`;
   }
 
+  obterClasseTamanhoLista() {
+    return this.sessao && this.sessao?.composicao.length > 195 ? 'lista-processos-composicao': 'lista-processos';
+  }
+
   openDialog() {
     this.dialogRef = this.dialog.open(DialogLoadModuleComponent, {
       panelClass: 'dialog-load',

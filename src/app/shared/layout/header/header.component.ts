@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { MaterialComponentes } from '../../util/material.imports';
+
 import { Usuario } from '../../model/usuario';
 import { PerfilAcesso } from '../../model/perfilAcesso';
-import { Router } from '@angular/router';
 import { Criptografia } from '../../util/criptografia';
 
 @Component({

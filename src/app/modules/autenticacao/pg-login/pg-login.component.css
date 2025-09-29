@@ -33,13 +33,6 @@
   }
 }
 
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: center;
-}
-
 .tamanhoErro {
   font-size: 16px;
   width: 100%;
@@ -49,6 +42,13 @@
 
 .full-width {
   width: 100%;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
 }
 
 .login-button {

@@ -28,6 +28,11 @@
   }
 }
 
+.mensagemSucesso {
+  padding: 5px;
+  margin-bottom: 15px;
+}
+
 .forgot-password-form {
   display: flex;
   flex-direction: column;
@@ -160,9 +165,4 @@ mat-card-subtitle {
   text-align: center;
   margin-top: 14px;
   margin-bottom: 8px;
-}
-
-.mensagemSucesso {
-  padding: 5px;
-  margin-bottom: 15px;
 }

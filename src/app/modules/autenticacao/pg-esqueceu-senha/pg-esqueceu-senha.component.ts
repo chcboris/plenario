@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { MaterialComponentes } from '../../../shared/util/material.imports';
+
 import { Constantes } from '../../../shared/util/constantes';
 import { AutenticacaoService } from '../../../shared/service/autenticacao.service';
 import { Usuario } from '../../../shared/model/usuario';
-import { Subscription } from 'rxjs';
-
 import { Resposta } from '../../../shared/model/resposta';
 
 @Component({
@@ -86,15 +86,6 @@ export class PgEsqueceuSenhaComponent implements OnInit {
     this.recuperarSenha();
   }
 
-  fundoLogin() {
-    let enderecoFundo = Constantes.imagePath + 'fundo-login2.jpg';
-    return {
-      'background-image': 'url(' + enderecoFundo + ')',
-      width: '100%',
-      height: '100%',
-    };
-  }
-
   isPrimeiroAcesso() {
     return this.activateRoute.snapshot.url[0].path === 'primeiro-acesso';
   }
@@ -102,6 +93,15 @@ export class PgEsqueceuSenhaComponent implements OnInit {
   limparMensagens() {
     this.mensagemResposta = '';
     this.mensagemSucesso = '';
+  }
+
+  fundoLogin() {
+    let enderecoFundo = Constantes.imagePath + 'fundo-login2.jpg';
+    return {
+      'background-image': 'url(' + enderecoFundo + ')',
+      width: '100%',
+      height: '100%',
+    };
   }
 
   ngOnDestroy() {

@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div class="lista-processos">
+  <div class="lista-processos" [ngClass]="obterClasseTamanhoLista()">
     @if(this.sessao && this.sessao.processos && this.sessao.processos.length > 0){
       @if (processosFiltrados.length > 0) {
         @for (processo of processosFiltrados; track $index) {

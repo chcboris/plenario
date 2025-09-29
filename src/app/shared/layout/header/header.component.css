@@ -57,13 +57,13 @@
   margin-top: 15px;
 }
 
+.corIcone {
+  color: #467caf;
+}
+
 .botaoLogin {
   background-color: white;
   font-size: 16px;
-}
-
-.corIcone {
-  color: #467caf;
 }
 
 .linkCursor {

@@ -1,6 +1,7 @@
-import { Criptografia } from '../util/criptografia';
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+
+import { Criptografia } from '../util/criptografia';
 
 export const autenticadoGuard: CanActivateFn = () => {
   const router = inject(Router);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 export interface UploadedFile {
   id: string;
@@ -46,14 +46,14 @@ export class FileUploadService {
       let progress = 0;
       const interval = setInterval(() => {
         progress += 10;
-        
+
         if (progress <= 100) {
           observer.next({ progress });
         }
-        
+
         if (progress >= 100) {
           clearInterval(interval);
-          
+
           // Simular upload bem-sucedido
           const newFiles: UploadedFile[] = files.map(file => ({
             id: (this.nextId++).toString(),
@@ -63,9 +63,9 @@ export class FileUploadService {
             uploadDate: new Date(),
             url: URL.createObjectURL(file)
           }));
-          
+
           this.uploadedFiles.push(...newFiles);
-          
+
           observer.next({ progress: 100, uploadedFiles: newFiles });
           observer.complete();
         }
@@ -87,7 +87,7 @@ export class FileUploadService {
           if (file.url && file.url.startsWith('blob:')) {
             URL.revokeObjectURL(file.url);
           }
-          
+
           this.uploadedFiles.splice(index, 1);
           observer.next(true);
         } else {
@@ -109,7 +109,7 @@ export class FileUploadService {
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          
+
           observer.next(true);
         } catch (error) {
           observer.error('Erro ao fazer download do arquivo');
@@ -150,11 +150,11 @@ export class FileUploadService {
 
   formatFileSize(bytes: number): string {
     if (bytes === 0) return '0 Bytes';
-    
+
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    
+
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 }

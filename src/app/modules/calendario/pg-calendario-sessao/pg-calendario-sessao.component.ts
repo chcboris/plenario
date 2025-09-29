@@ -1,20 +1,21 @@
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, DatesSetArg, EventApi, EventClickArg, EventInput } from '@fullcalendar/core';
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { Subscription } from 'rxjs';
+
 import { Sessao } from '../../../shared/model/sessao';
 import { SessaoService } from '../../../shared/service/sessao.service';
+import { Criptografia } from '../../../shared/util/criptografia';
 import { DialogLoadModuleComponent } from '../../../shared/util/dialog-load-module/dialog-load-module.component';
 import { MaterialComponentes } from '../../../shared/util/material.imports';
 import { ModalDetalheSessaoComponent } from '../componentes/modal-detalhe-sessao/modal-detalhe-sessao.component';
-import { Criptografia } from '../../../shared/util/criptografia';
-
 
 @Component({
   selector: 'app-pg-calendario-sessao',
@@ -44,6 +45,8 @@ export class PgCalendarioSessaoComponent implements OnInit{
   // Lista de eventos em formato simples para facilitar manipulação
   private eventsList = signal<EventInput[]>([]);
 
+  @ViewChild('calendario') calendario!: FullCalendarComponent;
+
   calendarOptions = signal<CalendarOptions>({
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     headerToolbar: {
@@ -71,14 +74,15 @@ export class PgCalendarioSessaoComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    // let dataEvento = sessionStorage.getItem('mesAnoEvento');
-    // if (dataEvento) {
-    //   dataEvento = Criptografia.decode(dataEvento);
-    //   this.dataAtual = new Date(dataEvento.replaceAll('"',''));
-    // }
+    let mesAnoEventoClicado = sessionStorage.getItem(Criptografia.encode("mesAnoEventoClicado"));
+    if (mesAnoEventoClicado) {
+      mesAnoEventoClicado = Criptografia.decode(mesAnoEventoClicado).replaceAll('"','');
+      this.dataAtual = new Date(mesAnoEventoClicado);
+      sessionStorage.removeItem(Criptografia.encode("mesAnoEventoClicado"));
+    }
+
     this.consultarSessoes( (this.dataAtual.getMonth() + 1).toString(), this.dataAtual.getFullYear().toString());
     this.carregandoPagina = true;
-
   }
 
   consultarSessoes(mes: string, ano: string) {
@@ -90,6 +94,7 @@ export class PgCalendarioSessaoComponent implements OnInit{
         next: (res) => {
           this.sessoes = res;
           this.popularCalendario();
+          this.carregandoPagina = false;
           this.closeDialog();
         },
         error: (e) => {
@@ -124,23 +129,25 @@ export class PgCalendarioSessaoComponent implements OnInit{
         },
       }));
 
+      this.calendario.getApi().gotoDate(this.dataAtual);
+
     }
   }
 
   onDatesSet(datas: DatesSetArg) {
-    // if(!this.carregandoPagina){
+    if (!this.carregandoPagina) {
       const mesAtual = datas.view.currentStart.getMonth() + 1;
 
       if ((this.dataAtual.getMonth() + 1) != mesAtual) {
         this.dataAtual = datas.view.currentStart;
         this.consultarSessoes((this.dataAtual.getMonth() + 1).toString(), this.dataAtual.getFullYear().toString());
       }
-    // }
+
+    }
     this.carregandoPagina = false;
   }
 
   adicionar(sessao: Sessao) {
-    // Monta a data/hora do evento
     let eventStart = sessao.data.toString();
 
     if (sessao.hora) {
@@ -150,7 +157,6 @@ export class PgCalendarioSessaoComponent implements OnInit{
     let corFundo: string = this.obterCorFundo(sessao.tipoSessaoFormatada);
     let corBorda: string = this.obterCorBorda(sessao.tipoSessaoFormatada);
 
-    // Cria novo evento
     let quantidadeProcessos = sessao.quantidadeProcessos;
     const evento: EventInput = {
       id: sessao.id.toString(),
@@ -163,7 +169,6 @@ export class PgCalendarioSessaoComponent implements OnInit{
 
     };
 
-    // Adiciona o evento à lista e atualiza as opções do calendário
     const updatedEvents = [...this.eventsList(), evento];
     this.eventsList.set(updatedEvents);
 
@@ -172,7 +177,6 @@ export class PgCalendarioSessaoComponent implements OnInit{
       events: this.eventsList()
     }));
 
-    // Limpa o formulário
     this.newEventDate = '';
     this.newEventTime = '';
   }
@@ -216,15 +220,6 @@ export class PgCalendarioSessaoComponent implements OnInit{
 
   }
 
-  openDialog() {
-    this.dialogRef = this.dialog.open(DialogLoadModuleComponent, {
-      panelClass: 'dialog-load',
-    });
-  }
-
-  closeDialog() {
-    this.dialogRef.close();
-  }
 
   handleEventClick(clickInfo: EventClickArg) {
     let dataEventoClicado = clickInfo.event.start?.toISOString();
@@ -234,7 +229,7 @@ export class PgCalendarioSessaoComponent implements OnInit{
     }
 
     if (dataEventoClicado) {
-      sessionStorage.setItem("mesAnoEvento", Criptografia.encode(JSON.stringify(dataEventoClicado)));
+      sessionStorage.setItem(Criptografia.encode("mesAnoEventoClicado"), Criptografia.encode(JSON.stringify(dataEventoClicado)));
     }
   }
 
@@ -242,14 +237,14 @@ export class PgCalendarioSessaoComponent implements OnInit{
     this.currentEvents.set(events);
   }
 
-  formatEventDate(date: Date): string {
-    return date.toLocaleDateString('pt-BR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: date.getHours() !== 0 ? '2-digit' : undefined,
-      minute: date.getMinutes() !== 0 ? '2-digit' : undefined,
+  openDialog() {
+    this.dialogRef = this.dialog.open(DialogLoadModuleComponent, {
+      panelClass: 'dialog-load',
     });
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 
   ngOnDestroy() {

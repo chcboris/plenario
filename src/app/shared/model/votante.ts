@@ -4,4 +4,3 @@ export interface Votante {
   votoPossuiConteudo: boolean;
   acompanhaRelator?: boolean; // opcional, pois não vem sempre
 }
- 

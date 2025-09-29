@@ -10,8 +10,13 @@
         <mat-table [dataSource]="dataSource" class="processos-table" matSort matSortActive="dataSessao" matSortDirection="desc">
           
           <ng-container matColumnDef="dataSessao">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Data</mat-header-cell>
-            <mat-cell *matCellDef="let processo">{{ processo.dataSessao | date:'dd/MM/yyyy' }}</mat-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Data da sessão</mat-header-cell>
+            <mat-cell *matCellDef="let processo">{{ processo.sessaoData | date:'dd/MM/yyyy' }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ordemPauta">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Ordem Pauta</mat-header-cell>
+            <mat-cell *matCellDef="let processo" >{{ processo.ordemPauta }}</mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="numeroProcesso">
@@ -21,22 +26,22 @@
 
           <ng-container matColumnDef="relator">
             <mat-header-cell *matHeaderCellDef>Relator</mat-header-cell>
-            <mat-cell *matCellDef="let processo">{{ processo.relator }}</mat-cell>
+            <mat-cell *matCellDef="let processo">{{ processo.juizRelator }}</mat-cell>
           </ng-container>
 
-          <ng-container matColumnDef="nomeParteRepresentada">
+          <!-- <ng-container matColumnDef="nomeParteRepresentada">
             <mat-header-cell *matHeaderCellDef>Parte Representada</mat-header-cell>
             <mat-cell *matCellDef="let processo">{{ processo.nomeParteRepresentada }}</mat-cell>
-          </ng-container>
+          </ng-container> -->
 
           <ng-container matColumnDef="modalidadeSustentacao">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Modalidade</mat-header-cell>
             <mat-cell *matCellDef="let processo" 
-                      [style.background-color]="obterCorModalidade(processo.modalidadeSustentacao)"
+                      [style.background-color]="obterCorModalidade(processo.sessaoTipo)"
                       [style.color]="'back'"                      
                       [style.text-align]="'center'"
                       [style.margin]="'4px 10px 4px 4px'">
-              {{ processo.modalidadeSustentacao | titlecase }}
+              {{ processo.sessaoTipo | titlecase }}
             </mat-cell> 
           </ng-container>
 

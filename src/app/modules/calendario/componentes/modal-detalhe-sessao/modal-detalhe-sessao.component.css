@@ -1,14 +1,3 @@
-.tituloModal {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.dadosSessao {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.5;
-}
-
 .card {
   max-width: 580px;
   padding: 5px;
@@ -26,6 +15,12 @@
   font-style: italic;
   padding: 2px;
   margin-bottom: 10px;
+}
+
+.dadosSessao {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
 }
 
 .acoes {

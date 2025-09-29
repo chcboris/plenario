@@ -1,12 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
-import { Usuario } from '../../../shared/model/usuario';
+import { CommonModule } from '@angular/common';
 import { AbstractControl, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { Resposta } from '../../../shared/model/resposta';
-import { AutenticacaoService } from '../../../shared/service/autenticacao.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterialComponentes } from '../../../shared/util/material.imports';
-import { CommonModule } from '@angular/common';
+
+import { Usuario } from '../../../shared/model/usuario';
+import { Resposta } from '../../../shared/model/resposta';
+import { AutenticacaoService } from '../../../shared/service/autenticacao.service';
 import { Constantes } from '../../../shared/util/constantes';
 
 @Component({

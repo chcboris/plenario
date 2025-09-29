@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit} from '@angular/core';
-import { Sessao } from '../../../../shared/model/sessao';
-import { MaterialComponentes } from '../../../../shared/util/material.imports';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+
+import { MaterialComponentes } from '../../../../shared/util/material.imports';
+import { Sessao } from '../../../../shared/model/sessao';
 
 @Component({
   selector: 'app-modal-detalhe-sessao',

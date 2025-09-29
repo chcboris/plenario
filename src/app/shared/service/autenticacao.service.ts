@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Usuario } from '../model/usuario';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Constantes } from '../util/constantes';
+
+import { Usuario } from '../model/usuario';
 import { Resposta } from '../model/resposta';
+import { Constantes } from '../util/constantes';
 
 @Injectable({
   providedIn: 'root'
