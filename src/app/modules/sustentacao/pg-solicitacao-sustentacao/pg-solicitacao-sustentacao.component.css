@@ -115,11 +115,61 @@
   height: 18px;
 }
 
-.advogado-form,
-.solicitacao-form {
+.advogado-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+/* Layout específico para a aba 3 - Solicitação Sustentação Oral */
+.solicitacao-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Primeira linha: Data da Sessão, Número Ordem Pauta, Número do Processo */
+.primeira-linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* Segunda linha: Relator (campo único) */
+.segunda-linha {
+  display: flex;
+  width: 100%;
+}
+
+/* Terceira linha: Nome da Parte Representada (campo único) */
+.terceira-linha {
+  display: flex;
+  width: 100%;
+}
+
+/* Quarta linha: Nome do Advogado e Número OAB */
+.quarta-linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* Quinta linha: Telefone Celular e E-mail */
+.quinta-linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* Sexta linha: Radio buttons lado a lado */
+.sexta-linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: flex-start;
 }
 
 .form-row {
@@ -137,7 +187,7 @@
 }
 
 .radio-group {
-  margin: 20px 0;
+  margin: 0;
   padding: 16px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -181,10 +231,12 @@ mat-error {
   font-size: 16px;
   font-weight: 500;
   border-radius: 24px;
+  color: white !important; /* Força o texto branco */
 }
 
 .solicitar-button mat-icon {
   margin-right: 8px;
+  color: white !important; /* Força o ícone branco */
 }
 
 .register-actions {
@@ -214,6 +266,18 @@ mat-error {
   .register-card {
     max-width: 100%;
     padding: 15px;
+  }
+  
+  .primeira-linha {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .quarta-linha,
+  .quinta-linha,
+  .sexta-linha {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
   
   .form-row {

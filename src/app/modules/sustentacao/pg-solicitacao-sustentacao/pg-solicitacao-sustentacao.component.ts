@@ -129,7 +129,7 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
 
   carregarDadosProcesso(): void {
     // Simulando carregamento de dados - em produção seria uma chamada para o serviço
-    if (this.processoId && this.dadosProcesso.length > 0) {
+    //if (this.processoId && this.dadosProcesso.length > 0) {
       const dados = this.dadosProcesso[0];
       
       // Carregando dados do usuário logado para preencher automaticamente
@@ -146,7 +146,7 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
         comPreferencia: null, // Campo editável - resetado para forçar seleção
         modalidadeSustentacao: null // Campo editável - resetado para forçar seleção
       });
-    }
+   // }
   }
 
   onTabChange(index: number): void {

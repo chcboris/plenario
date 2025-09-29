@@ -64,6 +64,7 @@
         </mat-tab>
 
         <!-- Aba 3: Solicitação Sustentação Oral -->
+<!-- Aba 3: Solicitação Sustentação Oral -->
         <mat-tab label="Solicitação Sustentação Oral">
           <div class="tab-content">
             <!-- Observação sobre dados pessoais -->
@@ -75,88 +76,100 @@
 
             <form [formGroup]="solicitacaoForm" (ngSubmit)="solicitar()" class="solicitacao-form">
               
-              <div class="form-row">
-                <mat-form-field appearance="outline" class="half-width">
+              <!-- Primeira linha: Data da Sessão, Número Ordem Pauta, Número do Processo -->
+              <div class="primeira-linha">
+                <mat-form-field appearance="outline">
                   <mat-label>Data da Sessão</mat-label>
                   <input matInput type="date" formControlName="dataSessao" readonly>
                   <mat-icon matSuffix>calendar_today</mat-icon>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="half-width">
+                <mat-form-field appearance="outline">
                   <mat-label>Número Ordem Pauta</mat-label>
                   <input matInput type="number" formControlName="numeroOrdemPauta" readonly>
                   <mat-icon matSuffix>format_list_numbered</mat-icon>
                 </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Número do Processo</mat-label>
+                  <input matInput type="text" formControlName="numeroProcesso" readonly>
+                  <mat-icon matSuffix>description</mat-icon>
+                </mat-form-field>
               </div>
 
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Número do Processo</mat-label>
-                <input matInput type="text" formControlName="numeroProcesso" readonly>
-                <mat-icon matSuffix>description</mat-icon>
-              </mat-form-field>
+              <!-- Segunda linha: Relator -->
+              <div class="segunda-linha">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Relator</mat-label>
+                  <input matInput type="text" formControlName="relator" readonly>
+                  <mat-icon matSuffix>person</mat-icon>
+                </mat-form-field>
+              </div>
 
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Relator</mat-label>
-                <input matInput type="text" formControlName="relator" readonly>
-                <mat-icon matSuffix>person</mat-icon>
-              </mat-form-field>
+              <!-- Terceira linha: Nome da Parte Representada -->
+              <div class="terceira-linha">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Nome da Parte Representada</mat-label>
+                  <input matInput type="text" formControlName="nomeParteRepresentada" readonly>
+                  <mat-icon matSuffix>business</mat-icon>
+                </mat-form-field>
+              </div>
 
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Nome da Parte Representada</mat-label>
-                <input matInput type="text" formControlName="nomeParteRepresentada" readonly>
-                <mat-icon matSuffix>business</mat-icon>
-              </mat-form-field>
-
-              <div class="form-row">
-                <mat-form-field appearance="outline" class="half-width">
+              <!-- Quarta linha: Nome do Advogado e Número OAB (que aparece duplicado no protótipo) -->
+              <div class="quarta-linha">
+                <mat-form-field appearance="outline">
                   <mat-label>Nome do Advogado</mat-label>
                   <input matInput type="text" formControlName="nomeAdvogado" readonly>
                   <mat-icon matSuffix>person</mat-icon>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="half-width">
+                <mat-form-field appearance="outline">
                   <mat-label>Número OAB</mat-label>
                   <input matInput type="text" formControlName="numeroOAB" readonly>
                   <mat-icon matSuffix>gavel</mat-icon>
                 </mat-form-field>
               </div>
 
-              <div class="form-row">
-                <mat-form-field appearance="outline" class="half-width">
+              <!-- Quinta linha: Telefone Celular e E-mail -->
+              <div class="quinta-linha">
+                <mat-form-field appearance="outline">
                   <mat-label>Telefone Celular</mat-label>
                   <input matInput type="text" formControlName="telefoneCelular" readonly>
                   <mat-icon matSuffix>phone</mat-icon>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="half-width">
+                <mat-form-field appearance="outline">
                   <mat-label>E-mail</mat-label>
                   <input matInput type="email" formControlName="email" readonly>
                   <mat-icon matSuffix>email</mat-icon>
                 </mat-form-field>
               </div>
 
-              <!-- Radio buttons para Com Preferência -->
-              <div class="radio-group">
-                <label class="radio-label">Com Preferência *</label>
-                <mat-radio-group formControlName="comPreferencia" class="radio-buttons">
-                  <mat-radio-button [value]="true">SIM</mat-radio-button>
-                  <mat-radio-button [value]="false">NÃO</mat-radio-button>
-                </mat-radio-group>
-                <mat-error *ngIf="solicitacaoForm.get('comPreferencia')?.hasError('required') && solicitacaoForm.get('comPreferencia')?.touched">
-                  Este campo é obrigatório
-                </mat-error>
-              </div>
+              <!-- Sexta linha: Radio buttons lado a lado -->
+              <div class="sexta-linha">
+                <!-- Radio buttons para Com Preferência -->
+                <div class="radio-group">
+                  <label class="radio-label">Com Preferência *</label>
+                  <mat-radio-group formControlName="comPreferencia" class="radio-buttons">
+                    <mat-radio-button [value]="true">SIM</mat-radio-button>
+                    <mat-radio-button [value]="false">NÃO</mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="solicitacaoForm.get('comPreferencia')?.hasError('required') && solicitacaoForm.get('comPreferencia')?.touched">
+                    Este campo é obrigatório
+                  </mat-error>
+                </div>
 
-              <!-- Radio buttons para Modalidade Sustentação -->
-              <div class="radio-group">
-                <label class="radio-label">Modalidade Sustentação *</label>
-                <mat-radio-group formControlName="modalidadeSustentacao" class="radio-buttons">
-                  <mat-radio-button value="virtual">Virtual</mat-radio-button>
-                  <mat-radio-button value="presencial">Presencial</mat-radio-button>
-                </mat-radio-group>
-                <mat-error *ngIf="solicitacaoForm.get('modalidadeSustentacao')?.hasError('required') && solicitacaoForm.get('modalidadeSustentacao')?.touched">
-                  Este campo é obrigatório
-                </mat-error>
+                <!-- Radio buttons para Modalidade Sustentação -->
+                <div class="radio-group">
+                  <label class="radio-label">Modalidade Sustentação *</label>
+                  <mat-radio-group formControlName="modalidadeSustentacao" class="radio-buttons">
+                    <mat-radio-button value="virtual">Virtual</mat-radio-button>
+                    <mat-radio-button value="presencial">Presencial</mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="solicitacaoForm.get('modalidadeSustentacao')?.hasError('required') && solicitacaoForm.get('modalidadeSustentacao')?.touched">
+                    Este campo é obrigatório
+                  </mat-error>
+                </div>
               </div>
 
               <div class="form-actions">
