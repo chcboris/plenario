@@ -7,7 +7,7 @@ export interface SolicitaSustentacao {
     ordemPauta: number;
     numeroProcesso: string;
     juizRelator: string;
-    status: number;
+    status: string;
     advogadoNome: string;
     advogadoCodigoOab: string;
     advogadoSituacao: string;    

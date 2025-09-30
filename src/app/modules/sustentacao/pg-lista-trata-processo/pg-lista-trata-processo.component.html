@@ -34,7 +34,7 @@
             <mat-cell *matCellDef="let processo">{{ processo.nomeParteRepresentada }}</mat-cell>
           </ng-container> -->
 
-          <ng-container matColumnDef="modalidadeSustentacao">
+          <!-- <ng-container matColumnDef="modalidadeSustentacao">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Modalidade</mat-header-cell>
             <mat-cell *matCellDef="let processo" 
                       [style.background-color]="obterCorModalidade(processo.sessaoTipo)"
@@ -45,7 +45,7 @@
             </mat-cell> 
           </ng-container>
 
-<!-- [style.font-weight]="'bold'" -->
+
 
           <ng-container matColumnDef="status">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
@@ -55,6 +55,26 @@
                       [style.margin]="'4px 10px 4px 4px'"
                       [style.text-align]="'center'">
               {{ processo.status | titlecase }}
+            </mat-cell>
+          </ng-container> -->
+
+          <ng-container matColumnDef="modalidadeSustentacao">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo da Sessão</mat-header-cell>
+            <mat-cell *matCellDef="let processo">
+              <span class="cell-modalidade" 
+                    [style.background-color]="obterCorModalidade(processo.sessaoTipo)">
+                {{ processo.sessaoTipo | titlecase }}
+              </span>
+            </mat-cell> 
+          </ng-container>
+          
+          <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+            <mat-cell *matCellDef="let processo">
+              <span class="cell-status" 
+                    [style.background-color]="obterCorStatus(processo.status)">
+                {{ processo.status | titlecase }}
+              </span>
             </mat-cell>
           </ng-container>
 

@@ -6,4 +6,5 @@ export interface UsuarioExterno {
   ultimaAtualizacao: Date;
   revogacaoAcesso: Date;
   senha: string;
+  oab: string;
 }

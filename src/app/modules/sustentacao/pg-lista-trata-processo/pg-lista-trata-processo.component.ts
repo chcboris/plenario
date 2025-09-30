@@ -11,6 +11,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { SustentacaoOral } from '../../../shared/model/sustentacaoProcesso';
+import { SustentacaoService } from '../../../shared/service/sustentacao.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogLoadModuleComponent } from '../../../shared/util/dialog-load-module/dialog-load-module.component';
 
 @Component({
   selector: 'app-pg-lista-trata-processo',
@@ -27,13 +30,19 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
   // Alterando 'dataSource' para MatTableDataSource
   dataSource = new MatTableDataSource<SolicitaSustentacao>([]);
   usuario?: Usuario;
+  
+  dialogRef?: any;
+
+  mensagemErro: string = '';
+  mensagemSucesso: string = '';
+
   subscriptions: Subscription[] = [];
 
   // ViewChild para MatSort e MatPaginator
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(public router: Router, private paginatorIntl: MatPaginatorIntl) {
+  constructor(public router: Router, private paginatorIntl: MatPaginatorIntl, private sustentacaoService: SustentacaoService, private dialog: MatDialog) {
     // Configurando tradução do paginator para português
     this.paginatorIntl.itemsPerPageLabel = 'Itens por página:';
     this.paginatorIntl.nextPageLabel = 'Próxima página';
@@ -74,27 +83,47 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
     
   }
 
+  // carregarProcessos(): void {
+  //   // Simulando dados para demonstração - em produção seria uma chamada para o serviço
+  //   if (!this.usuario?.login) {
+  //     const data: SolicitaSustentacao[] = [
+  //       {
+  //         id: 1,          
+  //         idSessao: 1,
+  //         sessaoData: new Date('2024-01-15'),
+  //         sessaoTipo: 'Virtual',
+  //         idProcesso: 1111,
+  //         ordemPauta: 1,
+  //         numeroProcesso: '0001234-56.2024.6.19.0015',
+  //         juizRelator: 'Des. João Silva',
+  //         status: 0,
+  //         advogadoNome: 'Dr. Maria Oliveira',
+  //         advogadoCodigoOab: '12345/RJ',
+  //         advogadoSituacao: 'at',
+  //       }             
+  //     ];
+  //     this.dataSource.data = data; // Atribui os dados ao MatTableDataSource
+  //   }
+  // }
+
   carregarProcessos(): void {
-    // Simulando dados para demonstração - em produção seria uma chamada para o serviço
-    //if (!this.usuario?.login) {
-      const data: SolicitaSustentacao[] = [
-        {
-          id: 1,          
-          idSessao: 1,
-          sessaoData: new Date('2024-01-15'),
-          sessaoTipo: 'Virtual',
-          idProcesso: 1111,
-          ordemPauta: 1,
-          numeroProcesso: '0001234-56.2024.6.19.0015',
-          juizRelator: 'Des. João Silva',
-          status: 0,
-          advogadoNome: 'Dr. Maria Oliveira',
-          advogadoCodigoOab: '12345/RJ',
-          advogadoSituacao: 'at',
-        }             
-      ];
-      this.dataSource.data = data; // Atribui os dados ao MatTableDataSource
-    //}
+    if (!this.usuario?.login) {
+      return;
+    }
+  
+    this.openDialog();
+    let subCarregarProcessos: Subscription = this.sustentacaoService.obterProcessosAdvogado('149662')
+      .subscribe({
+        next: (res) => {
+          this.dataSource.data = res;
+          this.closeDialog();
+        },
+        error: (e) => {
+          this.mensagemErro = e.error;
+          this.closeDialog();
+        },
+      });
+    this.subscriptions.push(subCarregarProcessos);
   }
 
   redirecionarParaSolicitacao(processo: SustentacaoOral): void {
@@ -103,25 +132,25 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
 
   obterCorStatus(status: string): string {
     switch (status) {
-      case 'pendente':
-        return '#ff9800';
-      case 'aprovado':
-        return '#4caf50';
-      case 'rejeitado':
-        return '#f44336';
+      case 'Pendente':
+        return '#458f4678';
+      case 'Autorizada':
+        return '#458f4678';
+      case 'Recusada':   
+        return '#f1090959';  
       default:
-        return '#757575';
+        return 'white';
     }
   }
 
   obterCorModalidade(modalidade: string): string {
     switch (modalidade) {
       case 'virtual':
-        return '#ff9800';
+        return 'salmon';
       case 'presencial':
-        return '#2196f3';
+        return '#1ebff3';// '#2196f3';
       default:
-        return '#757575';
+        return '#1ebff3'; //'#0dcaf0';
     }
   }
 
@@ -132,5 +161,15 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
       'width': '100%',
       'height': '100%'
     }
+  }
+
+  openDialog() {
+    this.dialogRef = this.dialog.open(DialogLoadModuleComponent, {
+      panelClass: 'dialog-load',
+    });
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 }
