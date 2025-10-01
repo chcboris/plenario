@@ -10,4 +10,5 @@ export interface SolicitacaoSustentacaoOral {
     email: string;
     comPreferencia: boolean;
     modalidadeSustentacao: 'virtual' | 'presencial';
+    validacao: boolean;
 }

@@ -126,19 +126,18 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
     this.subscriptions.push(subCarregarProcessos);
   }
 
-  // redirecionarParaSolicitacao(sustenta: SolicitaSustentacao): void {
-    
-  //   this.router.navigate(['/pg-solicitacao-sustentacao', sustenta.idSessao]);
+  // redirecionarParaSolicitacao(processo: SustentacaoOral): void {
+  //   //this.router.navigate(['/pg-solicitacao-sustentacao', processo.id]);
   // }
 
-redirecionarParaSolicitacao(sustenta: SolicitaSustentacao): void {
-  this.router.navigate([
-    '/solicitacao-sustentacao', 
-    sustenta.idSessao, 
-    sustenta.idProcesso, 
-    sustenta.ordemPauta
-  ]);
-}
+  redirecionarParaSolicitacao(sustenta: SolicitaSustentacao): void {
+    this.router.navigate([
+      '/solicitacao-sustentacao', 
+      sustenta.idSessao, 
+      sustenta.idProcesso, 
+      sustenta.ordemPauta
+    ]);
+  }
 
   obterCorStatus(status: string): string {
     switch (status) {

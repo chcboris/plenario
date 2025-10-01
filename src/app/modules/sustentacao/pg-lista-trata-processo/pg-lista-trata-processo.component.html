@@ -78,6 +78,20 @@
             </mat-cell>
           </ng-container>
 
+          <!-- <ng-container matColumnDef="acao">
+            <mat-header-cell *matHeaderCellDef>Ação</mat-header-cell>
+            <mat-cell *matCellDef="let processo">
+              <button 
+                mat-raised-button 
+                color="primary" 
+                (click)="redirecionarParaSolicitacao(processo)"
+                class="action-button">
+                <mat-icon>edit</mat-icon>
+                Solicitar 
+              </button>
+            </mat-cell>
+          </ng-container> -->
+
           <ng-container matColumnDef="acao">
             <mat-header-cell *matHeaderCellDef>Ação</mat-header-cell>
             <mat-cell *matCellDef="let processo">
@@ -93,7 +107,7 @@
             }
             </mat-cell>
           </ng-container>
-
+          
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>

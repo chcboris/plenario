@@ -9,14 +9,14 @@
       <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event.index)">
         
         <!-- Aba 1: Base Legal -->
-        <mat-tab label="Base Legal">
+        <mat-tab label="Orientações Legais">
           <div class="tab-content">
             <div class="base-legal-content" [innerHTML]="textoBaseLegal"></div>
           </div>
         </mat-tab>
 
         <!-- Aba 2: Dados do Advogado -->
-        <mat-tab label="Dados do Advogado">
+        <!-- <mat-tab label="Dados do Advogado">
           <div class="tab-content">
             <div class="advogado-content">
               <h3>Dados do Advogado</h3>
@@ -25,8 +25,6 @@
                 Os dados abaixo são baseados no seu cadastro. Você pode alterar todos os campos exceto o e-mail.
               </p>
               
-              <!-- Aqui seria integrado o PgCadastroUsuarioExternoComponent -->
-              <!-- Por simplicidade, vou criar um formulário similar -->
               <form class="advogado-form">
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Nome Completo</mat-label>
@@ -61,22 +59,27 @@
               </form>
             </div>
           </div>
-        </mat-tab>
+        </mat-tab> -->
 
         <!-- Aba 3: Solicitação Sustentação Oral -->
-<!-- Aba 3: Solicitação Sustentação Oral -->
-        <mat-tab label="Solicitação Sustentação Oral">
-          <div class="tab-content">
+        <mat-tab label="Solicitar">
+          <div class="tab-content solicite-legal-content">
+            <!-- Mensagem de sucesso/erro -->
+            <div *ngIf="mensagem" [class]="'message-container message-' + mensagem.tipo">
+              <mat-icon>{{ mensagem.tipo === 'success' ? 'check_circle' : 'error' }}</mat-icon>
+              <span>{{ mensagem.texto }}</span>
+            </div>
+
             <!-- Observação sobre dados pessoais -->
             <div class="observacao-dados-pessoais">
               <mat-icon class="warning-icon">warning</mat-icon>
-              <p><strong>Atenção:</strong> Caso os dados pessoais nesta aba estejam desatualizados, 
-              acesse a aba "Dados do Advogado" para verificar e atualizar suas informações antes de fazer a solicitação.</p>
+              <p><strong>Atenção:</strong> Caso os dados pessoais nesta aba estejam desatualizados, acesse "Dados do Advogado" 
+                para atualizar suas informações antes de fazer a solicitação.</p>
             </div>
 
             <form [formGroup]="solicitacaoForm" (ngSubmit)="solicitar()" class="solicitacao-form">
               
-              <!-- Primeira linha: Data da Sessão, Número Ordem Pauta, Número do Processo -->
+              <!-- Primeira linha: Data da Sessão, Ordem Pauta, Número do Processo -->
               <div class="primeira-linha">
                 <mat-form-field appearance="outline">
                   <mat-label>Data da Sessão</mat-label>
@@ -85,7 +88,7 @@
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
-                  <mat-label>Número Ordem Pauta</mat-label>
+                  <mat-label>Ordem Pauta</mat-label>
                   <input matInput type="number" formControlName="numeroOrdemPauta" readonly>
                   <mat-icon matSuffix>format_list_numbered</mat-icon>
                 </mat-form-field>
@@ -110,12 +113,12 @@
               <div class="terceira-linha">
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Nome da Parte Representada</mat-label>
-                  <input matInput type="text" formControlName="nomeParteRepresentada" readonly>
+                  <textarea matInput formControlName="nomeParteRepresentada" readonly rows="2"></textarea>
                   <mat-icon matSuffix>business</mat-icon>
                 </mat-form-field>
               </div>
 
-              <!-- Quarta linha: Nome do Advogado e Número OAB (que aparece duplicado no protótipo) -->
+              <!-- Quarta linha: Nome do Advogado e Número OAB -->
               <div class="quarta-linha">
                 <mat-form-field appearance="outline">
                   <mat-label>Nome do Advogado</mat-label>
@@ -133,13 +136,13 @@
               <!-- Quinta linha: Telefone Celular e E-mail -->
               <div class="quinta-linha">
                 <mat-form-field appearance="outline">
-                  <mat-label>Telefone Celular</mat-label>
+                  <mat-label>Telefone Celular do Advogado</mat-label>
                   <input matInput type="text" formControlName="telefoneCelular" readonly>
                   <mat-icon matSuffix>phone</mat-icon>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
-                  <mat-label>E-mail</mat-label>
+                  <mat-label>E-mail do Advogado</mat-label>
                   <input matInput type="email" formControlName="email" readonly>
                   <mat-icon matSuffix>email</mat-icon>
                 </mat-form-field>
@@ -149,7 +152,7 @@
               <div class="sexta-linha">
                 <!-- Radio buttons para Com Preferência -->
                 <div class="radio-group">
-                  <label class="radio-label">Com Preferência *</label>
+                  <label class="radio-label">Preferência *</label>
                   <mat-radio-group formControlName="comPreferencia" class="radio-buttons">
                     <mat-radio-button [value]="true">SIM</mat-radio-button>
                     <mat-radio-button [value]="false">NÃO</mat-radio-button>
@@ -161,15 +164,24 @@
 
                 <!-- Radio buttons para Modalidade Sustentação -->
                 <div class="radio-group">
-                  <label class="radio-label">Modalidade Sustentação *</label>
+                  <label class="radio-label">Modalidade da Sustentação *</label>
                   <mat-radio-group formControlName="modalidadeSustentacao" class="radio-buttons">
                     <mat-radio-button value="virtual">Virtual</mat-radio-button>
-                    <mat-radio-button value="presencial">Presencial</mat-radio-button>
+                    <mat-radio-button value="presencial">Vídeo Conferência</mat-radio-button>
                   </mat-radio-group>
                   <mat-error *ngIf="solicitacaoForm.get('modalidadeSustentacao')?.hasError('required') && solicitacaoForm.get('modalidadeSustentacao')?.touched">
                     Este campo é obrigatório
                   </mat-error>
                 </div>
+              </div>
+
+              <!-- Validação -->
+              <div class="validacao-container">
+                <mat-slide-toggle formControlName="validacao" color="primary">
+                </mat-slide-toggle>
+                <span class="validacao-label">
+                  Declaro que as informações prestadas são verdadeiras e estou ciente das responsabilidades legais por declarações falsas.
+                </span>
               </div>
 
               <div class="form-actions">
