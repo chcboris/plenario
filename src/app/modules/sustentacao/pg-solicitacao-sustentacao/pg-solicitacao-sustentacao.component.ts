@@ -68,10 +68,7 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
 
   textoBaseLegal = `
     <h3>Sustentação Oral</h3>
-    <p>Compartilhar página via e-mail</p>
-    <p>Compartilhar pagina via Facebook</p>
-    <p>Compartilhar pagina via WhatsApp</p>
-    
+   
     <p>Os pedidos de sustentação oral no TRE/RJ deverão obedecer aos procedimentos abaixo, conforme a modalidade da sessão de julgamento:</p>
     
     <h4>1 - PLENÁRIO VIRTUAL</h4>
@@ -110,11 +107,24 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.carregarUsuarioLogado();
+      const idSessao = Number(this.route.snapshot.paramMap.get('idSessao'));
+  const idProcesso = Number(this.route.snapshot.paramMap.get('idProcesso'));
+  const ordemPauta = Number(this.route.snapshot.paramMap.get('ordemPauta'));
+
     this.route.params.subscribe(params => {
       this.processoId = +params['id'];
       this.carregarDadosProcesso();
     });
   }
+
+// constructor(private route: ActivatedRoute) {}
+// 
+// ngOnInit(): void {
+//   const idSessao = Number(this.route.snapshot.paramMap.get('idSessao'));
+//   const idProcesso = Number(this.route.snapshot.paramMap.get('idProcesso'));
+//   const ordemPauta = Number(this.route.snapshot.paramMap.get('ordemPauta'));
+// }
+
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());

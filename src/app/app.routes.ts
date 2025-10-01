@@ -52,7 +52,7 @@ export const routes: Routes = [
     //canActivate: [autenticadoGuard]
   },
   {
-    path: 'solicitacao-sustentacao/:processoId',
+    path: 'solicitacao-sustentacao/:idSessao/:idProcesso/:ordemPauta',
     component: PgSolicitacaoSustentacaoComponent,
     //canActivate: [autenticadoGuard]
   },
