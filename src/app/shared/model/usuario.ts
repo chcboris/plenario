@@ -5,6 +5,7 @@ import { UsuarioExterno } from "./usuarioExterno";
 export interface Usuario {
   login?: string;
   senha?: string;
+  confirmaSenha?: string;
   token?: string;
   perfis: PerfilAcesso[];
   servidor?: Servidor;

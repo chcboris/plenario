@@ -29,6 +29,10 @@
             <mat-error *ngIf="formTrocarSenha.get('novaSenha')?.hasError('minlength')">
               Senha deve ter pelo menos 8 caracteres
             </mat-error>
+            <mat-error *ngIf="formTrocarSenha.get('novaSenha')?.hasError('senhaFraca')">
+              Senha não atende aos requisitos mínimos de segurança
+            </mat-error>
+
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="full-width">
@@ -47,6 +51,14 @@
               Senhas não coincidem
             </mat-error>
           </mat-form-field>
+
+          <div class="requisitosSenha">
+            <span class="negrito">A senha deve possuir pelo menos: </span>
+            <span>&bull; 1 letra maiúscula</span>
+            <span>&bull; 1 letra minúscula</span>
+            <span>&bull; 1 número</span>
+            <span>&bull; 1 caracter especial ($, #, &#64;, ! ...)</span>
+          </div>
 
           <button
             mat-raised-button

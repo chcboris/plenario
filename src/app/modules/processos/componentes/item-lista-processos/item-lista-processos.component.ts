@@ -69,7 +69,24 @@ export class ItemListaProcessosComponent {
   }
 
   abrirVoto(votoConteudo: VotoConteudo) {
-    const blob = new Blob(['<body>' + votoConteudo.conteudo + '</body>'], { type: 'text/html' });
+    let htmlVoto = `
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Voto - ${votoConteudo.magistrado}</title>
+        <style>
+          body {
+            border: 1px solid black;
+            padding: 1em;
+            font-family: Arial, sans-serif;
+          }
+        </style>
+      </head>
+      <body>
+        ${votoConteudo.conteudo}
+      </body>
+    </html>`;
+    const blob = new Blob([htmlVoto], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     window.open(url, '_blank');
   }

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterialComponentes } from '../../../shared/util/material.imports';
@@ -64,7 +64,7 @@ export class PgTrocaSenhaComponent {
     this.formTrocarSenha = this.fb.group({
       novaSenha: ['', [Validators.required, Validators.minLength(8)]],
       repeteSenha:['', Validators.required]
-    }, { validators: this.validarSenhasIguais})
+    }, { validators: [this.validarSenhasIguais, this.senhaForteValidator]})
   }
 
   trocarSenha(){
@@ -79,6 +79,7 @@ export class PgTrocaSenhaComponent {
       primeiroAcesso: this.router.url.includes('primeiro-acesso')
     }
     this.usuario.senha = this.formTrocarSenha.value.novaSenha;
+    this.usuario.confirmaSenha = this.formTrocarSenha.value.repeteSenha;
     this.usuario.token = this.token;
 
     let subTrocarSenha:Subscription = this.autenticacaoService.trocarSenha(this.usuario).subscribe({
@@ -100,7 +101,7 @@ export class PgTrocaSenhaComponent {
         }
       },
       error: (e) => {
-          this.mensagemResposta = e.message;
+          this.mensagemResposta = e.error.message;
           this.formTrocarSenha.reset();
           this.myFormTrocarSenha.resetForm();
           setTimeout(() => {
@@ -124,6 +125,21 @@ export class PgTrocaSenhaComponent {
           confirmPassword.setErrors(null);
         }
       }
+    }
+
+    return null;
+  }
+
+  senhaForteValidator(form: AbstractControl) {
+    const senha = form.get('novaSenha');
+
+    if (!senha) return null;
+
+    // Regex: mínimo 8 caracteres, 1 minúscula, 1 maiúscula, 1 número e 1 especial
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])[A-Za-z\d@$!#%*?&_]{8,}$/;
+
+    if (!regex.test(senha.value)) {
+      senha.setErrors({ senhaFraca: true })
     }
 
     return null;

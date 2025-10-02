@@ -58,19 +58,19 @@
                 </tbody>
               </table>
 
-              <strong>Omissos: </strong><span [innerHTML]="obterOmissos()"> </span>
+              <strong>Voto vencedor: </strong><span>{{ processo.vencedor }} </span><br/>
+              <strong>Votos omissos: </strong><span [innerHTML]="obterOmissos()"> </span>
+            </div>
 
-          </div>
-
-          <div class="coluna">
-              <span><strong>Conteúdo dos votos </strong></span><br/>
-              @for (votoConteudo of processo.votosConteudo; track $index) {
-                <div class="listaConteudoVotos">
-                  <span>{{ votoConteudo.magistrado }}</span>
-                  <mat-icon class="iconeVoto" (click)="abrirVoto(votoConteudo)">how_to_vote</mat-icon><br/>
-                </div>
-              }
-          </div>
+            <div class="coluna">
+                <span><strong>Conteúdo dos votos </strong></span><br/>
+                @for (votoConteudo of processo.votosConteudo; track $index) {
+                  <div class="listaConteudoVotos">
+                    <span>{{ votoConteudo.magistrado }}</span>
+                    <mat-icon class="iconeVoto" (click)="abrirVoto(votoConteudo)">how_to_vote</mat-icon><br/>
+                  </div>
+                }
+            </div>
 
           } @else {
             <span class="labelSemVotos">Não existem votos para esse processo</span>

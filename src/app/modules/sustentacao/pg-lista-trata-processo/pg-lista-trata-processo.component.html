@@ -95,9 +95,7 @@
           <ng-container matColumnDef="acao">
             <mat-header-cell *matHeaderCellDef>Ação</mat-header-cell>
             <mat-cell *matCellDef="let processo">
-             <!-- @if(!processo.status){ -->
-            @if(validaSolicitacao(processo.sessaoData, processo.status)){
-              
+             @if(validaSolicitacao(processo.sessaoData, processo.status)){
               <button 
                 mat-raised-button 
                 color="primary" 

@@ -108,12 +108,13 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
   // }
 
   carregarProcessos(): void {
-    if (!this.usuario?.login) {
+    
+    if (!this.usuario?.login || !this.usuario.usuarioExterno) {
       return;
     }
-  
+
     this.openDialog();
-    let subCarregarProcessos: Subscription = this.sustentacaoService.obterProcessosAdvogado('149662')
+    let subCarregarProcessos: Subscription = this.sustentacaoService.obterProcessosAdvogado(this.usuario.usuarioExterno.oab)
       .subscribe({
         next: (res) => {
           this.dataSource.data = res;
@@ -125,6 +126,7 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
         },
       });
     this.subscriptions.push(subCarregarProcessos);
+
   }
 
   // redirecionarParaSolicitacao(processo: SustentacaoOral): void {

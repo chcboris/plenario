@@ -220,6 +220,8 @@ import { Usuario } from '../../../shared/model/usuario';
 import { Criptografia } from '../../../shared/util/criptografia';
 import { Constantes } from '../../../shared/util/constantes';
 import { UsuarioExterno } from '../../../shared/model/usuarioExterno';
+import { SustentacaoService } from '../../../shared/service/sustentacao.service';
+import { SolicitaSustentacao } from '../../../shared/model/SolicitaSustentacao';
 
 @Component({
   selector: 'app-pg-solicitacao-sustentacao',
@@ -286,7 +288,8 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private sustentacaoService: SustentacaoService
   ) {
     this.solicitacaoForm = this.fb.group({
       dataSessao: ['', Validators.required],
@@ -309,7 +312,13 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
     const idSessao = Number(this.route.snapshot.paramMap.get('idSessao'));
     const idProcesso = Number(this.route.snapshot.paramMap.get('idProcesso'));
     const ordemPauta = Number(this.route.snapshot.paramMap.get('ordemPauta'));
-    this.carregarDadosProcesso();
+    // this.carregarDadosProcesso();
+      // Carregar processo específico se os parâmetros estiverem presentes
+  if (idSessao && idProcesso && ordemPauta && this.usuario?.usuarioExterno?.oab) {
+    this.carregarProcessoEspecifico(idSessao, idProcesso, ordemPauta);
+  } else {
+    this.carregarDadosProcesso(); // Fallback para dados simulados
+  }
   }
 
   ngOnDestroy(): void {
@@ -405,4 +414,59 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
       'height': '100%'
     }
   }
+
+  // Novo método para carregar processo específico
+carregarProcessoEspecifico(idSessao: number, idProcesso: number, ordemPauta: number): void {
+  if (!this.usuario?.usuarioExterno?.oab) {
+    console.error('OAB do usuário não encontrada');
+    return;
+  }
+
+  const subCarregarProcesso: Subscription = this.sustentacaoService
+    .obterProcessoEspecifico(idSessao, idProcesso, ordemPauta, this.usuario.usuarioExterno.oab)
+    .subscribe({
+      next: (processo: SolicitaSustentacao) => {
+        // Preencher o formulário com os dados do processo
+        this.preencherFormulario(processo);
+      },
+      error: (e) => {
+        console.error('Erro ao carregar processo:', e);
+        this.mensagem = {
+          tipo: 'error',
+          texto: 'Erro ao carregar dados do processo.'
+        };
+        // Fallback para dados simulados em caso de erro
+        this.carregarDadosProcesso();
+      }
+    });
+    
+  this.subscriptions.push(subCarregarProcesso);
+}
+
+// Método auxiliar para preencher o formulário
+private preencherFormulario(processo: SolicitaSustentacao): void {
+   // Converter data ISO para formato YYYY-MM-DD
+   let dataSessaoFormatada = '';
+   if (processo.sessaoData) {
+     const data = new Date(processo.sessaoData);
+     dataSessaoFormatada = data.toISOString().split('T')[0];
+   }
+  // Mapear os dados do processo para o formato do formulário
+  const dadosFormulario = {
+    dataSessao: dataSessaoFormatada,
+    numeroOrdemPauta: processo.ordemPauta || '',
+    numeroProcesso: processo.numeroProcesso || '',
+    relator: processo.juizRelator || '',
+    nomeParteRepresentada: '',//processo.nomeParteRepresentada || '',
+    nomeAdvogado: this.usuario?.usuarioExterno?.nome || '',
+    numeroOAB: this.usuario?.usuarioExterno?.oab || '',
+    telefoneCelular: '', //this.usuario?.usuarioExterno?.telefone || '',
+    email: this.usuario?.usuarioExterno?.email || '',
+    comPreferencia: null,
+    modalidadeSustentacao: null,
+    validacao: false
+  };
+
+  this.solicitacaoForm.patchValue(dadosFormulario);
+}
 }
