@@ -14,6 +14,7 @@ import { SustentacaoOral } from '../../../shared/model/sustentacaoProcesso';
 import { SustentacaoService } from '../../../shared/service/sustentacao.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogLoadModuleComponent } from '../../../shared/util/dialog-load-module/dialog-load-module.component';
+import moment from 'moment';
 
 @Component({
   selector: 'app-pg-lista-trata-processo',
@@ -181,4 +182,28 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
   closeDialog() {
     this.dialogRef.close();
   }
+
+  validaSolicitacao(dataSessao: Date, statusSessao: any): boolean {
+    // 1. Verificar se o status da sessão é nulo ou undefined
+    const statusENulo = statusSessao === null || statusSessao === undefined;
+
+    if (!statusENulo) {
+        // Se o status não for nulo, a primeira condição falha, retorna false.
+        return false;
+    }
+
+    // 2. Preparar as datas para comparação apenas pela parte do dia (ignorando o tempo).
+    // moment().startOf('day') garante que estamos comparando 'hoje à meia-noite'.
+    const dataAtualInicioDia = moment().startOf('day');
+    
+    // moment(dataSessao).startOf('day') garante que estamos comparando a data da sessão à meia-noite dela.
+    const dataAlvoInicioDia = moment(dataSessao).startOf('day');
+
+    // 3. Verificar se a data atual é estritamente anterior à data da sessão.
+    // isBefore retorna true se a dataAtualInicioDia for anterior a dataAlvoInicioDia.
+    const dataAnterior = dataAtualInicioDia.isBefore(dataAlvoInicioDia);
+
+    // Retorna true somente se ambas as condições forem satisfeitas.
+    return statusENulo && dataAnterior;
+}
 }
