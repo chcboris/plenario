@@ -7,4 +7,5 @@ export interface UsuarioExterno {
   revogacaoAcesso: Date;
   senha: string;
   oab: string;
+  telefone: string;
 }

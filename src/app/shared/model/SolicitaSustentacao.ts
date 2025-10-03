@@ -10,5 +10,9 @@ export interface SolicitaSustentacao {
     status: string;
     advogadoNome: string;
     advogadoCodigoOab: string;
-    advogadoSituacao: string;    
+    advogadoSituacao: string;  
+    email: String;
+    telefone: String;
+    partes_processo: string;
+    classe: string;  
 } 

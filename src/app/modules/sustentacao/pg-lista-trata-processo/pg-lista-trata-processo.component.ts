@@ -207,5 +207,6 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
 
     // Retorna true somente se ambas as condições forem satisfeitas.
     return statusENulo && dataAnterior;
+    //return statusENulo;
 }
 }
