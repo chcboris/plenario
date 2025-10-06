@@ -17,7 +17,7 @@ export class MenuPortalComponent {
   }
 
   navegarParaSustentacao(): void {
-    this.router.navigate(['/lista-trata-processo']);
+    this.router.navigate(['/lista-processo-sustentacao']);
   }
 
   navegarParaUploadArquivos(): void {

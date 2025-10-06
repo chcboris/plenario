@@ -1,0 +1,241 @@
+.register-container {
+  width: 100%;
+  min-height: 87.2vh;
+  background-color: rgb(83, 99, 122);
+  padding: 5px 5px; 
+}
+
+.mat-mdc-card-header {
+  text-align: center;
+}
+
+/* ---- TÍTULO  -- */
+mat-card-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+mat-card-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 500;
+  color: #467caf;
+}
+
+mat-card-subtitle {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+/* --- tabela --- */
+.table-container {
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+.processos-table {
+  width: 100% !important;
+  max-height: 600px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para paginação com botões brancos */
+::ng-deep .mat-mdc-paginator {
+  background-color: white;
+}
+
+::ng-deep .mat-mdc-paginator .mat-mdc-icon-button {
+  background-color: white !important;
+  color: #467caf !important;
+  border: 1px solid #467caf !important;
+  border-radius: 4px !important;
+}
+
+::ng-deep .mat-mdc-paginator .mat-mdc-icon-button:hover {
+  background-color: #f5f5f5 !important;
+}
+
+::ng-deep .mat-mdc-paginator .mat-mdc-icon-button[disabled] {
+  background-color: #f5f5f5 !important;
+  color: #ccc !important;
+  border-color: #ccc !important;
+}
+
+.mat-mdc-cell {
+  padding: 12px 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mat-mdc-row:hover {
+  background-color: #f5f5f5;
+}
+
+/* --- botão ação --- */
+.action-button {
+  background: #467caf;
+  color: white !important; 
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.action-button:hover {
+  background: #3a6a9b;
+}
+
+/* Garante que o ícone dentro do botão Solicitar seja branco */
+.action-button mat-icon {
+  color: white !important; 
+}
+
+/* --- sem processos --- */
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.no-data mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #ccc;
+  margin-bottom: 16px;
+}
+
+
+/* --- rodapé --- */
+.full-width {
+  width: 100%;
+}
+
+.register-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 24px 24px;
+}
+
+.register-actions button {
+  background: #dfdddd;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 500;
+  justify-content: center;
+  color: #333;
+}
+
+/* Ajusta a cor do ícone no botão Voltar ao Calendário para a cor primária (#467caf), que é o "tom azul" desejado */
+.register-actions button mat-icon {
+  color: #467caf !important; 
+}
+
+/* Corrigido para evitar conflito com a regra mais específica acima e garantir que outros ícones usem o azul padrão */
+mat-icon {
+  color: #467caf; 
+}
+
+.mat-mdc-paginator {
+  background-color: rgb(85, 158, 218);
+  color:white;
+  font-size: medium;
+}
+
+@media (max-width: 768px) {
+  .register-container {
+    padding: 10px;
+  }
+
+  .register-card {
+    max-width: 100%;
+  }
+  
+  .table-container {
+    overflow-x: scroll;
+  }
+  
+  .processos-table {
+    min-width: 800px;
+  }
+}
+
+/* Chips personalizados */
+/* Regras unificadas para melhorar a aparência dos chips de Modalidade e Status */
+.mat-mdc-chip-set .mat-mdc-chip-element {
+  /* Garante cor branca para o texto dentro dos chips */
+  color: white !important; 
+  /* Fonte mais forte para contraste */
+  font-weight: 500; 
+  /* Borda mais suave e moderna */
+  border-radius: 6px !important; 
+  /* Ajusta o espaçamento interno (padding) */
+  padding: 4px 10px !important;
+  /* Altura menor, mais compacta */
+  min-height: 28px !important; 
+}
+
+/* Regra específica para os chips de status e modalidade na tabela */
+.processos-table .mat-mdc-table {
+  width: 100% !important;
+}
+
+/* Centraliza cabeçalhos e células */
+.mat-mdc-header-cell,
+.mat-mdc-cell {
+  text-align: center !important;
+  padding: 12px 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Define larguras específicas para cada coluna */
+.mat-column-dataSessao {
+  flex: 0 0 10% !important;
+  width: 10% !important;
+}
+
+.mat-column-ordemPauta {
+  flex: 0 0 8% !important;
+  width: 8% !important;
+}
+
+.mat-column-numeroProcesso {
+  flex: 0 0 20% !important;
+  width: 20% !important;
+}
+
+.mat-column-relator {
+  flex: 0 0 22% !important;
+  width: 22% !important;
+}
+
+.mat-column-modalidadeSustentacao {
+  flex: 0 0 15% !important;
+  width: 15% !important;
+}
+
+.mat-column-status {
+  flex: 0 0 12% !important;
+  width: 12% !important;
+}
+
+.mat-column-acao {
+  flex: 0 0 13% !important;
+  width: 13% !important;
+}
+
+/* Estilo para as células de modalidade e status com fundo colorido */
+.cell-modalidade,
+.cell-status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: 500;
+}

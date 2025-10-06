@@ -55,25 +55,25 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
   mensagem?: { tipo: 'success' | 'error', texto: string };
   
   // Dados simulados para o formulário
-  dadosProcesso: SolicitacaoSustentacaoOral[] = [
-    {
-      idSessao: 1,
-      idProcesso: 2,
+  // dadosProcesso: SolicitacaoSustentacaoOral[] = [
+  //   {
+  //     idSessao: 1,
+  //     idProcesso: 2,
   
-      dataSessao: new Date,
-      numeroOrdemPauta: 1,
-      numeroProcesso: '0001234-56.2024.6.19.0001',
-      relator: 'Des. João Silva',
-      nomeParteRepresentada: 'João dos Santos, João dos Santos JR, João dos Santos Neto, João dos Santos Bisneto',
-      nomeAdvogado: 'Dr. Maria Oliveira',
-      numeroOAB: '12345/RJ',
-      telefoneCelular: '(21) 99999-9999',
-      email: 'maria@advogados.com',
-      preferencia: true,
-      modalidadeSustentacao: 'virtual',
-      validacao: false
-    }
-  ];
+  //     dataSessao: new Date,
+  //     numeroOrdemPauta: 1,
+  //     numeroProcesso: '0001234-56.2024.6.19.0001',
+  //     relator: 'Des. João Silva',
+  //     nomeParteRepresentada: 'João dos Santos, João dos Santos JR, João dos Santos Neto, João dos Santos Bisneto',
+  //     nomeAdvogado: 'Dr. Maria Oliveira',
+  //     numeroOAB: '12345/RJ',
+  //     telefoneCelular: '(21) 99999-9999',
+  //     email: 'maria@advogados.com',
+  //     preferencia: true,
+  //     modalidadeSustentacao: 'virtual',
+  //     validacao: false
+  //   }
+  // ];
    
 
   textoBaseLegal = `  
@@ -120,18 +120,11 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
     const idSessao = Number(this.route.snapshot.paramMap.get('idSessao'));
     const idProcesso = Number(this.route.snapshot.paramMap.get('idProcesso'));
     const ordemPauta = Number(this.route.snapshot.paramMap.get('ordemPauta'));
-    // this.carregarDadosProcesso();
-      // Carregar processo específico se os parâmetros estiverem presentes
-  if (idSessao && idProcesso && ordemPauta && this.usuario?.usuarioExterno?.oab) {
-    this.carregarProcessoEspecifico(idSessao, idProcesso, ordemPauta);
-  } else {
-    this.carregarDadosProcesso(); // Fallback para dados simulados
-  }
-  }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
+    if (idSessao && idProcesso && ordemPauta && this.usuario?.usuarioExterno?.oab) {
+      this.carregarProcessoEspecifico(idSessao, idProcesso, ordemPauta);
+    } 
+ }
 
   carregarUsuarioLogado(): void {
     const usuarioStorage = sessionStorage.getItem('usuario');
@@ -140,27 +133,75 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
     }
   }
 
-  carregarDadosProcesso(): void {
-    const dados = this.dadosProcesso[0];
-    
-    // Carregando dados do usuário logado para preencher automaticamente
-    if (this.usuario) {
-      dados.nomeAdvogado = this.usuario?.usuarioExterno?.nome || 'Dr. Maria Oliveira';
-      dados.email = this.usuario?.usuarioExterno?.email || 'maria@advogados.com';
-    }
-    
-    // Preenchendo o formulário com todos os dados, mas resetando os campos editáveis
-    this.solicitacaoForm.patchValue({
-      ...dados,
-      comPreferencia: null,
-      modalidadeSustentacao: null,
-      validacao: false
-    });
+  // Novo método para carregar processo específico
+carregarProcessoEspecifico(idSessao: number, idProcesso: number, ordemPauta: number): void {
+  if (!this.usuario?.usuarioExterno?.oab) {
+    console.error('Usuário não encontrado(a)');
+    return;
   }
 
-  onTabChange(index: number): void {
+  const subCarregarProcesso: Subscription = this.sustentacaoService
+    .obterProcessoEspecifico(idSessao, idProcesso, ordemPauta, this.usuario.usuarioExterno.oab)
+    .subscribe({
+      next: (processo: SolicitaSustentacao) => {
+        // Preencher o formulário com os dados do processo
+        this.preencherFormulario(processo);
+      },
+      error: (e) => {
+        console.error('Erro ao carregar o processo:', e);
+        this.mensagem = {
+          tipo: 'error',
+          texto: 'Erro ao carregar dados do processo.'
+        };
+      }
+    });
+    
+  this.subscriptions.push(subCarregarProcesso);
+}
+
+
+private preencherFormulario(processo: SolicitaSustentacao): void {
+   // Converter data ISO para formato YYYY-MM-DD
+   let dataSessaoFormatada = '';
+   if (processo.sessaoData) {
+     const data = new Date(processo.sessaoData);
+     dataSessaoFormatada = data.toISOString().split('T')[0];
+   }
+  
+  const dadosFormulario = {
+    dataSessao: dataSessaoFormatada,
+    numeroOrdemPauta: processo.ordemPauta || '',
+    numeroProcesso: processo.numeroProcesso || '',
+    relator: processo.juizRelator || '',
+    nomeParteRepresentada: processo.partes_processo,
+    nomeAdvogado: processo.advogadoNome, // this.usuario?.usuarioExterno?.nome || '',
+    numeroOAB: processo.advogadoCodigoOab, // this.usuario?.usuarioExterno?.oab || '',
+    telefoneCelular: processo.telefone, // this.usuario?.usuarioExterno?.telefone || '',
+    email: processo.email, // this.usuario?.usuarioExterno?.email || '',
+    comPreferencia: null,
+    modalidadeSustentacao: null,
+    validacao: false
+  };
+
+  this.solicitacaoForm.patchValue(dadosFormulario);
+}
+
+onTabChange(index: number): void {
     this.selectedTabIndex = index;
+}
+
+voltar(): void {
+  this.router.navigate(['/pg-lista-trata-processo']);
+}
+
+fundoLogin() {
+  let enderecoFundo = Constantes.imagePath + 'fundo-login2.jpg';
+  return {
+    'background-image': 'url(' + enderecoFundo + ')',
+    'width': '100%',
+    'height': '100%'
   }
+}
 
   solicitar(): void {
     if (this.solicitacaoForm.valid) {
@@ -210,74 +251,6 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
     }
   }
 
-  voltar(): void {
-    this.router.navigate(['/pg-lista-trata-processo']);
-  }
-
-  fundoLogin() {
-    let enderecoFundo = Constantes.imagePath + 'fundo-login2.jpg';
-    return {
-      'background-image': 'url(' + enderecoFundo + ')',
-      'width': '100%',
-      'height': '100%'
-    }
-  }
-
-  // Novo método para carregar processo específico
-carregarProcessoEspecifico(idSessao: number, idProcesso: number, ordemPauta: number): void {
-  if (!this.usuario?.usuarioExterno?.oab) {
-    console.error('OAB do usuário não encontrada');
-    return;
-  }
-
-  const subCarregarProcesso: Subscription = this.sustentacaoService
-    .obterProcessoEspecifico(idSessao, idProcesso, ordemPauta, this.usuario.usuarioExterno.oab)
-    .subscribe({
-      next: (processo: SolicitaSustentacao) => {
-        // Preencher o formulário com os dados do processo
-        this.preencherFormulario(processo);
-      },
-      error: (e) => {
-        console.error('Erro ao carregar processo:', e);
-        this.mensagem = {
-          tipo: 'error',
-          texto: 'Erro ao carregar dados do processo.'
-        };
-        // Fallback para dados simulados em caso de erro
-        this.carregarDadosProcesso();
-      }
-    });
-    
-  this.subscriptions.push(subCarregarProcesso);
-}
-
-// Método auxiliar para preencher o formulário
-private preencherFormulario(processo: SolicitaSustentacao): void {
-   // Converter data ISO para formato YYYY-MM-DD
-   let dataSessaoFormatada = '';
-   if (processo.sessaoData) {
-     const data = new Date(processo.sessaoData);
-     dataSessaoFormatada = data.toISOString().split('T')[0];
-   }
-  // Mapear os dados do processo para o formato do formulário
-  const dadosFormulario = {
-    dataSessao: dataSessaoFormatada,
-    numeroOrdemPauta: processo.ordemPauta || '',
-    numeroProcesso: processo.numeroProcesso || '',
-    relator: processo.juizRelator || '',
-    nomeParteRepresentada: processo.partes_processo,
-    nomeAdvogado: processo.advogadoNome, // this.usuario?.usuarioExterno?.nome || '',
-    numeroOAB: processo.advogadoCodigoOab, // this.usuario?.usuarioExterno?.oab || '',
-    telefoneCelular: processo.telefone, // this.usuario?.usuarioExterno?.telefone || '',
-    email: processo.email, // this.usuario?.usuarioExterno?.email || '',
-    comPreferencia: null,
-    modalidadeSustentacao: null,
-    validacao: false
-  };
-
-  this.solicitacaoForm.patchValue(dadosFormulario);
-}
-
 montarObjetoSolicitacao(): SolicitacaoSustentacaoOral {
   const formValue = this.solicitacaoForm.value;
 
@@ -308,6 +281,10 @@ montarObjetoSolicitacao(): SolicitacaoSustentacaoOral {
   };
 
   return solicitacao;
+}
+
+ngOnDestroy(): void {
+  this.subscriptions.forEach(sub => sub.unsubscribe());
 }
 
 }

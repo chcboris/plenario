@@ -10,32 +10,27 @@ import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { SustentacaoOral } from '../../../shared/model/sustentacaoProcesso';
 import { SustentacaoService } from '../../../shared/service/sustentacao.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogLoadModuleComponent } from '../../../shared/util/dialog-load-module/dialog-load-module.component';
 import moment from 'moment';
+import { ProcessoSustentacao } from '../../../shared/model/processoSustentacao';
+
 
 @Component({
-  selector: 'app-pg-lista-trata-processo',
-  imports: [CommonModule, MaterialComponentes],
-  templateUrl: './pg-lista-trata-processo.component.html',
-  styleUrl: './pg-lista-trata-processo.component.css'
+  selector: 'app-pg-lista-processo-sustentacao.component',
+  imports: [],
+  templateUrl: './pg-lista-processo-sustentacao.component.component.html',
+  styleUrl: './pg-lista-processo-sustentacao.component.component.css'
 })
-export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PgListaProcessoSustentacaoComponentComponent implements OnInit, OnDestroy, AfterViewInit {
   
-  // Colocando 'dataSessao' como primeira coluna
-  // displayedColumns: string[] = ['dataSessao', 'ordemPauta', 'numeroProcesso', 'relator', 'nomeParteRepresentada', 'modalidadeSustentacao', 'status', 'acao'];
   displayedColumns: string[] = ['dataSessao', 'ordemPauta', 'numeroProcesso', 'relator', 'modalidadeSustentacao', 'status', 'acao'];
 
-  // Alterando 'dataSource' para MatTableDataSource
-  dataSource = new MatTableDataSource<SolicitaSustentacao>([]);
+  dataSource = new MatTableDataSource<ProcessoSustentacao>([]);
   usuario?: Usuario;
   
   dialogRef?: any;
-
-  mensagemErro: string = '';
-  mensagemSucesso: string = '';
 
   subscriptions: Subscription[] = [];
 
@@ -43,8 +38,15 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(public router: Router, private paginatorIntl: MatPaginatorIntl, private sustentacaoService: SustentacaoService, private dialog: MatDialog) {
-    // Configurando tradução do paginator para português
+  constructor(public router: Router,
+    private paginatorIntl: MatPaginatorIntl,
+    private sustentacaoService: SustentacaoService,
+    private dialog: MatDialog) {
+    
+    this.configuracaoPaginacao();
+  }
+
+  private configuracaoPaginacao() {
     this.paginatorIntl.itemsPerPageLabel = 'Itens por página:';
     this.paginatorIntl.nextPageLabel = 'Próxima página';
     this.paginatorIntl.previousPageLabel = 'Página anterior';
@@ -66,46 +68,12 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
     this.carregarProcessos();
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
-
-  // Adicionando a vinculação do sort e paginator após a visualização ser inicializada
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-  }
-
   carregarUsuarioLogado(): void {
     const usuarioStorage = sessionStorage.getItem('usuario');
     if (usuarioStorage) {
       this.usuario = JSON.parse(Criptografia.decode(usuarioStorage));
-    }
-    
+    }    
   }
-
-  // carregarProcessos(): void {
-  //   // Simulando dados para demonstração - em produção seria uma chamada para o serviço
-  //   if (!this.usuario?.login) {
-  //     const data: SolicitaSustentacao[] = [
-  //       {
-  //         id: 1,          
-  //         idSessao: 1,
-  //         sessaoData: new Date('2024-01-15'),
-  //         sessaoTipo: 'Virtual',
-  //         idProcesso: 1111,
-  //         ordemPauta: 1,
-  //         numeroProcesso: '0001234-56.2024.6.19.0015',
-  //         juizRelator: 'Des. João Silva',
-  //         status: 0,
-  //         advogadoNome: 'Dr. Maria Oliveira',
-  //         advogadoCodigoOab: '12345/RJ',
-  //         advogadoSituacao: 'at',
-  //       }             
-  //     ];
-  //     this.dataSource.data = data; // Atribui os dados ao MatTableDataSource
-  //   }
-  // }
 
   carregarProcessos(): void {
     
@@ -114,38 +82,32 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
     }
 
     this.openDialog();
-    let subCarregarProcessos: Subscription = this.sustentacaoService.obterProcessosAdvogado(this.usuario.usuarioExterno.oab)
+    let subCarregarProcessos: Subscription = this.sustentacaoService.obterListaProcessos(this.usuario.usuarioExterno.oab)
       .subscribe({
         next: (res) => {
           this.dataSource.data = res;
           this.closeDialog();
         },
         error: (e) => {
-          this.mensagemErro = e.error;
           this.closeDialog();
         },
       });
     this.subscriptions.push(subCarregarProcessos);
-
   }
 
-  // redirecionarParaSolicitacao(processo: SustentacaoOral): void {
-  //   //this.router.navigate(['/pg-solicitacao-sustentacao', processo.id]);
-  // }
-
-  redirecionarParaSolicitacao(sustenta: SolicitaSustentacao): void {
+  redirecionarParaSolicitacao(solicitacao: SolicitaSustentacao): void {
     this.router.navigate([
       '/solicitacao-sustentacao', 
-      sustenta.idSessao, 
-      sustenta.idProcesso, 
-      sustenta.ordemPauta
+      solicitacao.idSessao, 
+      solicitacao.idProcesso, 
+      solicitacao.ordemPauta
     ]);
   }
 
   obterCorStatus(status: string): string {
     switch (status) {
       case 'Pendente':
-        return '#458f4678';
+        return '#e2ac3878';
       case 'Autorizada':
         return '#458f4678';
       case 'Recusada':   
@@ -189,8 +151,7 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
     // 1. Verificar se o status da sessão é nulo ou undefined
     const statusENulo = statusSessao === null || statusSessao === undefined;
 
-    if (!statusENulo) {
-        // Se o status não for nulo, a primeira condição falha, retorna false.
+    if (!statusENulo) {        
         return false;
     }
 
@@ -203,10 +164,43 @@ export class PgListaTrataProcessoComponent implements OnInit, OnDestroy, AfterVi
 
     // 3. Verificar se a data atual é estritamente anterior à data da sessão.
     // isBefore retorna true se a dataAtualInicioDia for anterior a dataAlvoInicioDia.
-    const dataAnterior = dataAtualInicioDia.isBefore(dataAlvoInicioDia); 
+    const dataAnterior = dataAtualInicioDia.isBefore(dataAlvoInicioDia);
 
     // Retorna true somente se ambas as condições forem satisfeitas.
     return statusENulo && dataAnterior;
     //return statusENulo;
 }
+
+ // Adicionando a vinculação do sort e paginator após a visualização ser inicializada
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+  
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
 }
+
+  // carregarProcessos(): void {
+  //   // Simulando dados para demonstração - em produção seria uma chamada para o serviço
+  //   if (!this.usuario?.login) {
+  //     const data: ProcessoSustentacao[] = [
+  //       {
+  //         id: 1,          
+  //         idSessao: 1,
+  //         sessaoData: new Date('2024-01-15'),
+  //         sessaoTipo: 'Virtual',
+  //         idProcesso: 1111,
+  //         ordemPauta: 1,
+  //         numeroProcesso: '0001234-56.2024.6.19.0015',
+  //         juizRelator: 'Des. João Silva',
+  //         status: 0,
+  //         advogadoNome: 'Dr. Maria Oliveira',
+  //         advogadoCodigoOab: '12345/RJ',
+  //         advogadoSituacao: 'at',
+  //       }             
+  //     ];
+  //     this.dataSource.data = data; // Atribui os dados ao MatTableDataSource
+  //   }
+  // }

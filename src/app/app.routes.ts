@@ -9,6 +9,7 @@ import { PgEsqueceuSenhaComponent } from './modules/autenticacao/pg-esqueceu-sen
 import { PgTrocaSenhaComponent } from './modules/autenticacao/pg-troca-senha/pg-troca-senha.component';
 import { PgListaTrataProcessoComponent } from './modules/sustentacao/pg-lista-trata-processo/pg-lista-trata-processo.component';
 import { PgSolicitacaoSustentacaoComponent } from './modules/sustentacao/pg-solicitacao-sustentacao/pg-solicitacao-sustentacao.component';
+import { PgListaProcessoSustentacaoComponentComponent } from './modules/sustentacao/pg-lista-processo-sustentacao.component/pg-lista-processo-sustentacao.component.component';
 
 export const routes: Routes = [
   {
@@ -54,6 +55,11 @@ export const routes: Routes = [
   {
     path: 'solicitacao-sustentacao/:idSessao/:idProcesso/:ordemPauta',
     component: PgSolicitacaoSustentacaoComponent,
+    //canActivate: [autenticadoGuard]
+  }, 
+  {
+    path: 'lista-processo-sustentacao',
+    component: PgListaProcessoSustentacaoComponentComponent,
     //canActivate: [autenticadoGuard]
   },
 

@@ -1,0 +1,96 @@
+<div class="register-container" >
+  <mat-card >
+    <mat-card-header>
+      <mat-card-title>Solicitação de Sustentação Oral</mat-card-title>
+      <mat-card-subtitle>Processos vinculados ao seu usuário</mat-card-subtitle>
+    </mat-card-header>
+
+      <mat-card-content>
+      <div class="table-container" >
+        <mat-table [dataSource]="dataSource" class="processos-table" matSort matSortActive="dataSessao" matSortDirection="desc">
+          
+          <ng-container matColumnDef="dataSessao">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Data da sessão</mat-header-cell>
+            <mat-cell *matCellDef="let processo">{{ processo.sessaoData | date:'dd/MM/yyyy' }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ordemPauta">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Ordem Pauta</mat-header-cell>
+            <mat-cell *matCellDef="let processo" >{{ processo.ordemPauta }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="numeroProcesso">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Nº do Processo</mat-header-cell>
+            <mat-cell *matCellDef="let processo">{{ processo.numeroProcesso }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="relator">
+            <mat-header-cell *matHeaderCellDef>Classe</mat-header-cell>
+            <mat-cell *matCellDef="let processo">{{ processo.classe }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="modalidadeSustentacao">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo da Sessão</mat-header-cell>
+            <mat-cell *matCellDef="let processo">
+              <span class="cell-modalidade" 
+                    [style.background-color]="obterCorModalidade(processo.sessaoTipo)">
+                {{ processo.sessaoTipo | titlecase }}
+              </span>
+            </mat-cell> 
+          </ng-container>
+          
+          <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+            <mat-cell *matCellDef="let processo">
+              <span class="cell-status" 
+                    [style.background-color]="obterCorStatus(processo.status)">
+                {{ processo.status | titlecase }}
+              </span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="acao">
+            <mat-header-cell *matHeaderCellDef>Ação</mat-header-cell>
+            <mat-cell *matCellDef="let processo">
+             @if(validaSolicitacao(processo.sessaoData, processo.status)){
+              <button 
+                mat-raised-button 
+                color="primary" 
+                (click)="redirecionarParaSolicitacao(processo)"
+                class="action-button">
+                <mat-icon>edit</mat-icon>
+                Solicitar 
+              </button>
+            }
+            </mat-cell>
+          </ng-container>
+          
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <div *ngIf="dataSource.data.length === 0" class="no-data">
+          <mat-icon>info</mat-icon>
+          <p>Nenhum processo encontrado para o usuário logado.</p>
+        </div>
+      </div>
+      
+      <mat-paginator 
+        [pageSizeOptions]="[5]" 
+        showFirstLastButtons>
+      </mat-paginator>
+
+    </mat-card-content> 
+
+     <mat-card-actions class="register-actions">
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="router.navigate(['/'])"
+        class="full-width">
+        <mat-icon>arrow_back</mat-icon>
+        Voltar ao Calendário
+      </button>
+    </mat-card-actions> 
+  </mat-card>  
+</div>

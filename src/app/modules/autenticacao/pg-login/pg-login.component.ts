@@ -66,7 +66,7 @@ export class PgLoginComponent {
         this.closeDialog();
 
         if (!this.usuario.perfis || this.usuario.perfis.length <= 0) {
-          this.router.navigate(['areaAdvogado']);
+          this.router.navigate(['MenuPortalComponent']);
         } else {
           this.router.navigate(['areaAdvogado']);
         }
