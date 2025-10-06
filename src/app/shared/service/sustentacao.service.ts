@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Constantes } from '../util/constantes';
 import { SolicitaSustentacao } from '../model/SolicitaSustentacao';
 import { ProcessoSustentacao } from '../model/processoSustentacao';
+import { SolicitacaoSustentacaoOral } from '../model/solicitacaoSustentacaoOral';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,10 @@ export class SustentacaoService {
     return this.http.get<SolicitaSustentacao>(
       `${Constantes.endpoint}sustentacao/sessao/processo/${idSessao}/${idProcesso}/${ordemPauta}/${oab}`
     );
+  }
+
+    salvar(solicitacaoSustentacaoOral: SolicitacaoSustentacaoOral): Observable<SolicitacaoSustentacaoOral> {
+    return this.http.post<SolicitacaoSustentacaoOral>(`${Constantes.endpoint}sustentacao/salvar`, solicitacaoSustentacaoOral);
   }
 
 }

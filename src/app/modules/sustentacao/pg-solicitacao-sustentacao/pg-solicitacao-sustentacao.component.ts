@@ -5,16 +5,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 
 // Material Design imports
-import { MatCardModule } from '@angular/material/card';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { CommonModule } from '@angular/common';
+// import { MatCardModule } from '@angular/material/card';
+// import { MatTabsModule } from '@angular/material/tabs';
+// import { MatFormFieldModule } from '@angular/material/form-field';
+// import { MatInputModule } from '@angular/material/input';
+// import { MatButtonModule } from '@angular/material/button';
+// import { MatIconModule } from '@angular/material/icon';
+// import { MatRadioModule } from '@angular/material/radio';
+// import { MatSnackBarModule } from '@angular/material/snack-bar';
+// import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+// import { CommonModule } from '@angular/common';
+
+import { MaterialComponentes } from '../../../shared/util/material.imports';
 
 // Models
 import { SolicitacaoSustentacaoOral } from '../../../shared/model/solicitacaoSustentacaoOral';
@@ -26,21 +28,23 @@ import { Constantes } from '../../../shared/util/constantes';
 import { UsuarioExterno } from '../../../shared/model/usuarioExterno';
 import { SustentacaoService } from '../../../shared/service/sustentacao.service';
 import { SolicitaSustentacao } from '../../../shared/model/SolicitaSustentacao';
+import { DialogLoadModuleComponent } from '../../../shared/util/dialog-load-module/dialog-load-module.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-pg-solicitacao-sustentacao',
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatTabsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatRadioModule,
-    MatSnackBarModule,
-    MatSlideToggleModule
+    // CommonModule,
+    // ReactiveFormsModule,
+    // MatCardModule,
+    // MatTabsModule,
+    // MatFormFieldModule,
+    // MatInputModule,
+    // MatButtonModule,
+    // MatIconModule,
+    // MatRadioModule,
+    // MatSnackBarModule,
+    // MatSlideToggleModule
   ],
   templateUrl: './pg-solicitacao-sustentacao.component.html',
   styleUrl: './pg-solicitacao-sustentacao.component.css'
@@ -54,6 +58,8 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   mensagem?: { tipo: 'success' | 'error', texto: string };
   
+ dialogRef?: any;
+
   // Dados simulados para o formulário
   // dadosProcesso: SolicitacaoSustentacaoOral[] = [
   //   {
@@ -97,7 +103,8 @@ export class PgSolicitacaoSustentacaoComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
-    private sustentacaoService: SustentacaoService
+    private sustentacaoService: SustentacaoService,
+    private dialog: MatDialog
   ) {
     this.solicitacaoForm = this.fb.group({
       dataSessao: ['', Validators.required],
@@ -203,53 +210,53 @@ fundoLogin() {
   }
 }
 
-  solicitar(): void {
-    if (this.solicitacaoForm.valid) {
-      const formData = this.solicitacaoForm.value;
+  // solicitar(): void {
+  //   if (this.solicitacaoForm.valid) {
+  //     const formData = this.solicitacaoForm.value;
       
-      // Simulando envio da solicitação
-      console.log('Dados da solicitação:', formData);
+  //     // Simulando envio da solicitação
+  //     console.log('Dados da solicitação:', formData);
       
-      // Exibir mensagem de sucesso
-      this.mensagem = {
-        tipo: 'success',
-        texto: 'Solicitação de sustentação oral enviada com sucesso!'
-      };
+  //     // Exibir mensagem de sucesso
+  //     this.mensagem = {
+  //       tipo: 'success',
+  //       texto: 'Solicitação de sustentação oral enviada com sucesso!'
+  //     };
       
-      // Rolar para o topo para ver a mensagem
-      const tabContent = document.querySelector('.tab-content');
-      if (tabContent) {
-        tabContent.scrollTop = 0;
-      }
+  //     // Rolar para o topo para ver a mensagem
+  //     const tabContent = document.querySelector('.tab-content');
+  //     if (tabContent) {
+  //       tabContent.scrollTop = 0;
+  //     }
       
-      // Remover mensagem após 3 segundos
-      setTimeout(() => {
-        this.mensagem = undefined;
-      }, 3000);
+  //     // Remover mensagem após 3 segundos
+  //     setTimeout(() => {
+  //       this.mensagem = undefined;
+  //     }, 3000);
       
-      // Redirecionar para a lista após 3 segundos
-      setTimeout(() => {
-        this.router.navigate(['/pg-lista-trata-processo']);
-      }, 3000);
-    } else {
-      // Exibir mensagem de erro
-      this.mensagem = {
-        tipo: 'error',
-        texto: 'Por favor, preencha todos os campos obrigatórios e aceite a declaração de validação.'
-      };
+  //     // Redirecionar para a lista após 3 segundos
+  //     setTimeout(() => {
+  //       this.router.navigate(['/pg-lista-trata-processo']);
+  //     }, 3000);
+  //   } else {
+  //     // Exibir mensagem de erro
+  //     this.mensagem = {
+  //       tipo: 'error',
+  //       texto: 'Por favor, preencha todos os campos obrigatórios e aceite a declaração de validação.'
+  //     };
       
-      // Rolar para o topo para ver a mensagem
-      const tabContent = document.querySelector('.tab-content');
-      if (tabContent) {
-        tabContent.scrollTop = 0;
-      }
+  //     // Rolar para o topo para ver a mensagem
+  //     const tabContent = document.querySelector('.tab-content');
+  //     if (tabContent) {
+  //       tabContent.scrollTop = 0;
+  //     }
       
-      // Remover mensagem após 3 segundos
-      setTimeout(() => {
-        this.mensagem = undefined;
-      }, 3000);
-    }
-  }
+  //     // Remover mensagem após 3 segundos
+  //     setTimeout(() => {
+  //       this.mensagem = undefined;
+  //     }, 3000);
+  //   }
+  // }
 
 montarObjetoSolicitacao(): SolicitacaoSustentacaoOral {
   const formValue = this.solicitacaoForm.value;
@@ -282,6 +289,117 @@ montarObjetoSolicitacao(): SolicitacaoSustentacaoOral {
 
   return solicitacao;
 }
+
+    // salvar(){
+    //   this.openDialog();
+
+    //   this.ocorrenciaAtualizacao = this.formOcorrencia.getRawValue();
+
+    //   if (this.usuario && this.usuario.login && this.ocorrenciaAtualizacao) {
+    //     this.ocorrenciaAtualizacao.loginAlteracao = this.usuario?.login;
+    //     this.ocorrenciaAtualizacao.idOcorrencia = this.ocorrencia?.id;
+    //   }
+
+    //   if (this.ocorrenciaAtualizacao) {
+    //       let subSalvar = this.ocorrenciaService.atualizar(this.ocorrenciaAtualizacao).subscribe({
+    //         next: (res) => {
+    //             this.ocorrencia = res;
+    //             this.formOcorrencia.patchValue(this.ocorrencia);
+    //             this.mensagemSucesso = 'Ocorrência atualizada com sucesso';
+
+    //             this.obterFormaContato();
+    //             this.obterStatusOcorrencia();
+    //             this.classeStatusOcorrencia();
+
+    //             setTimeout(() => {
+    //               this.limparMensagens();
+    //             }, 8000);
+    //             this.closeDialog();
+    //           },
+    //           error: (e) => {
+    //             this.mensagemErro = e.error;
+    //             setTimeout(() => {
+    //               this.limparMensagens();
+    //             }, 8000);
+    //             this.closeDialog();
+    //           }
+    //       });
+    //       this.subscriptions.push(subSalvar);
+    //     }
+    // }
+
+  solicitar(): void {
+    if (this.solicitacaoForm.valid) {
+      //const formData = this.solicitacaoForm.value;
+      
+      this.openDialog();
+
+      let solicatacao: SolicitacaoSustentacaoOral = this.montarObjetoSolicitacao();
+
+      if (solicatacao) {
+
+         let subSalvar = this.sustentacaoService.salvar(solicatacao).subscribe({
+            next: (res) => {
+                solicatacao = res;
+                this.mensagem = {
+                  tipo: 'success',
+                  texto: 'Solicitação de sustentação oral enviada com sucesso!'
+                };
+
+                // Rolar para o topo para ver a mensagem
+                const tabContent = document.querySelector('.tab-content');
+                if (tabContent) {
+                  tabContent.scrollTop = 0;
+                }
+                
+                // Remover mensagem após 3 segundos
+                setTimeout(() => {
+                  this.mensagem = undefined;
+                }, 3000);
+
+                this.closeDialog();
+              },
+              error: (e) => {
+                //this.mensagemErro = e.error;
+      this.mensagem = {
+        tipo: 'error',
+        texto: 'Por favor, preencha todos os campos obrigatórios e aceite a declaração de validação.'
+      };
+      
+      // Rolar para o topo para ver a mensagem
+      const tabContent = document.querySelector('.tab-content');
+      if (tabContent) {
+        tabContent.scrollTop = 0;
+      }
+      
+      // Remover mensagem após 3 segundos
+      setTimeout(() => {
+        this.mensagem = undefined;
+      }, 3000);
+              }
+          });
+          this.subscriptions.push(subSalvar);
+        }
+      // Simulando envio da solicitação
+      //console.log('Dados da solicitação:', formData);
+      
+      // Exibir mensagem de sucesso
+      this.mensagem = {
+        tipo: 'success',
+        texto: 'Solicitação de sustentação oral enviada com sucesso!'
+      };
+  }
+  }
+
+  openDialog() {
+    this.dialogRef = this.dialog.open(DialogLoadModuleComponent, {
+      panelClass: 'dialog-load',
+    });
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
 
 ngOnDestroy(): void {
   this.subscriptions.forEach(sub => sub.unsubscribe());
